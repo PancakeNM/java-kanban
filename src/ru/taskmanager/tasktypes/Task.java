@@ -7,20 +7,20 @@ public class Task {
     protected String name;
     protected String description;
     protected TaskStatus status = TaskStatus.NEW;
-    protected final int ID;
+    protected final int Id;
 
     public Task (int id, String name, String description) {
         this.name = name;
         this.description = description;
-        this.ID = id;
+        this.Id = id;
     }
-
-    public int getID() {
-        return ID;
-    }
-
-    public void setStatus(TaskStatus status) {
+    public Task (int id, String name, String description, TaskStatus status) {
+        this(id, name, description);
         this.status = status;
+    }
+
+    public int getId() {
+        return Id;
     }
 
     public String getName() {
@@ -31,6 +31,10 @@ public class Task {
         return description;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public TaskStatus getStatus() {
         return status;
     }
@@ -38,7 +42,7 @@ public class Task {
     @Override
     public String toString(){
         String result = "Task {" +
-                "ID='" + ID + '\'' +
+                "Id='" + Id + '\'' +
                 ", name='" + name + '\'';
         if (description == null) {
             result = result + ", description=null" +
@@ -55,12 +59,12 @@ public class Task {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        if (this.ID == ((Task) o).ID) return true;
+        if (this.Id == ((Task) o).Id) return true;
         return Objects.equals(name, task.name) && Objects.equals(description, task.description) && status == task.status;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description, status, ID);
+        return Objects.hash(name, description, status, Id);
     }
 }
