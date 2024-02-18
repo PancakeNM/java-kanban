@@ -3,6 +3,7 @@ package ru.taskmanager;
 import ru.taskmanager.tasktypes.Epic;
 import ru.taskmanager.tasktypes.SubTask;
 import ru.taskmanager.tasktypes.Task;
+import ru.taskmanager.tasktypes.TaskManager;
 
 public class Main {
 
@@ -27,14 +28,31 @@ public class Main {
 
         System.out.println(taskManager.getEpicById(4).toString());
 
-        SubTask subTask1 = new SubTask(taskManager.generateNewId(), "Подзадача 1", "Тест");
-        SubTask subTask2 = new SubTask(taskManager.generateNewId(), "Подзадача 2", "Тест");
+        SubTask subTask1 = new SubTask(taskManager.generateNewId(), "Подзадача 1", "Тест", 4);
+        SubTask subTask2 = new SubTask(taskManager.generateNewId(), "Подзадача 2", "Тест", 4);
 
-        taskManager.addNewSubTask(subTask1, 4);
-        taskManager.addNewSubTask(subTask2, 4);
+        taskManager.addNewSubTask(subTask1);
+        taskManager.addNewSubTask(subTask2);
         taskManager.removeSubTaskById(5);
 
+        System.out.println(taskManager.getSubTaskById(6));
 
+        System.out.println(taskManager.getEpicById(4).toString());
+
+        subTask2 = new SubTask(subTask2.getId(), "Тест изменения", "ТестТест", TaskStatus.DONE,
+                subTask2.getEpicId());
+
+        taskManager.updateSubTask(subTask2);
+
+        System.out.println(taskManager.getSubTaskById(6));
+
+        System.out.println(taskManager.getEpicById(4).toString());
+
+        SubTask subTask3 = new SubTask(taskManager.generateNewId(), "Подзадача 3", "Тест", 4);
+
+        taskManager.addNewSubTask(subTask3);
+
+        System.out.println(taskManager.getSubTasksByEpicId(4));
 
         taskManager.removeAllTasks();
         taskManager.removeAllSubTasks();
