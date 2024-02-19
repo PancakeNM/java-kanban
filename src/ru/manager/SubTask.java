@@ -1,8 +1,8 @@
-package ru.taskmanager.tasktypes;
+package ru.manager;
 
-import ru.taskmanager.TaskStatus;
+import ru.TaskStatus;
 
-public class SubTask extends Task{
+public class SubTask extends Task {
     private final int epicId;
     public SubTask(int id, String name, String description, int epicId) {
         super(id, name, description);

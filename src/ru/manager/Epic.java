@@ -1,6 +1,6 @@
-package ru.taskmanager.tasktypes;
+package ru.manager;
 
-import ru.taskmanager.TaskStatus;
+import ru.TaskStatus;
 
 import java.util.ArrayList;
 

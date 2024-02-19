@@ -1,4 +1,4 @@
-package ru.taskmanager;
+package ru;
 
 public enum TaskStatus {
     NEW,

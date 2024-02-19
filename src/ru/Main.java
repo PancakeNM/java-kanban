@@ -1,9 +1,9 @@
-package ru.taskmanager;
+package ru;
 
-import ru.taskmanager.tasktypes.Epic;
-import ru.taskmanager.tasktypes.SubTask;
-import ru.taskmanager.tasktypes.Task;
-import ru.taskmanager.tasktypes.TaskManager;
+import ru.manager.Epic;
+import ru.manager.SubTask;
+import ru.manager.Task;
+import ru.manager.TaskManager;
 
 public class Main {
 
