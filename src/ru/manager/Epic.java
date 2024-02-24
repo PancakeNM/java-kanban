@@ -20,6 +20,9 @@ public class Epic extends Task {
     public void removeSubTaskId(Integer Id) {
         subTaskIds.remove(Id);
     }
+    public void removeAllSubTaskId(){
+        subTaskIds.clear();
+    }
 
     protected void setStatus(TaskStatus status) {
         this.status = status;
