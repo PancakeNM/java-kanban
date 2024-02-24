@@ -16,10 +16,10 @@ public class TaskManager {
     }
 
     public void addNewSubTask(SubTask subTask) { //метод добавления новой подзадачи.
-        subTasks.put(subTask.getId(), subTask); //добавление сабтаски в мапу по заранее сгенереному id
-        Epic epic = epics.get(subTask.getEpicId()); //получение эпика, к которому принадлежит сабтаска
-        epic.addSubTaskId(subTask.getId()); //занесение id сабтаски в лист сабтасок эпика
-        epicStatusUpdater(subTask); // вызов апдейтера для обновления статуса эпика и самого его в мапе.
+        subTasks.put(subTask.getId(), subTask);
+        Epic epic = epics.get(subTask.getEpicId());
+        epic.addSubTaskId(subTask.getId());
+        epicStatusUpdater(subTask);
     }
 
     public void updateTask(Task task) {
