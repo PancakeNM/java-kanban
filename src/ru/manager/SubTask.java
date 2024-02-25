@@ -21,7 +21,7 @@ public class SubTask extends Task {
     @Override
     public String toString(){
         String result = "SubTask {" +
-                "Id='" + Id + '\'' +
+                "Id='" + id + '\'' +
                 ", name='" + name + '\'';
         if (description == null) {
             result = result + ", description=null" +
