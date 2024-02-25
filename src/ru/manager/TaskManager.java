@@ -45,13 +45,10 @@ public class TaskManager {
         }
         if (!statuses.contains(TaskStatus.IN_PROGRESS) && !statuses.contains(TaskStatus.NEW)){
             epic.setStatus(TaskStatus.DONE);
-            epics.put(epic.getId(), epic);
         } else if (!statuses.contains(TaskStatus.IN_PROGRESS) && !statuses.contains(TaskStatus.DONE)) {
             epic.setStatus(TaskStatus.NEW);
-            epics.put(epic.getId(), epic);
         } else {
             epic.setStatus(TaskStatus.IN_PROGRESS);
-            epics.put(epic.getId(), epic);
         } // проверка статуса эпика и его обновление
     }
 
@@ -80,10 +77,10 @@ public class TaskManager {
     }
 
     public void removeEpicById(int id) { //удаление эпика по id
-        epics.remove(id);
         for(Integer subTaskId : epics.get(id).getSubTaskIds()){
             subTasks.remove(subTaskId);
         }
+        epics.remove(id);
     }
 
     public void removeSubTaskById(int id) { //удаление подзадачи по id
