@@ -53,6 +53,7 @@ public class Main {
         taskManager.addNewSubTask(subTask3);
 
         System.out.println(taskManager.getSubTasksByEpicId(4));
+        System.out.println(taskManager.getEpicById(4).toString());
 
         taskManager.removeAllTasks();
         taskManager.removeAllSubTasks();
