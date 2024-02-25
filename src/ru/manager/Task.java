@@ -60,7 +60,8 @@ public class Task {
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
         if (this.Id == ((Task) o).Id) return true;
-        return Objects.equals(name, task.name) && Objects.equals(description, task.description) && status == task.status;
+        return Objects.equals(name, task.name) && Objects.equals(description, task.description) &&
+                status == task.status && this.hashCode() == task.hashCode();
     }
 
     @Override
