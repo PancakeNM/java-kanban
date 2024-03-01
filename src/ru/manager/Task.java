@@ -7,20 +7,23 @@ public class Task {
     protected String name;
     protected String description;
     protected TaskStatus status = TaskStatus.NEW;
-    protected final int id;
+    protected int id;
 
-    public Task (int id, String name, String description) {
+    public Task (String name, String description) {
         this.name = name;
         this.description = description;
-        this.id = id;
     }
-    public Task (int id, String name, String description, TaskStatus status) {
-        this(id, name, description);
+    public Task (String name, String description, TaskStatus status) {
+        this(name, description);
         this.status = status;
     }
 
     public int getId() {
         return id;
+    }
+
+    public void setId (int id) {
+        this.id = id;
     }
 
     public String getName() {

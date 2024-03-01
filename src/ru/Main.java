@@ -3,15 +3,15 @@ package ru;
 import ru.manager.Epic;
 import ru.manager.SubTask;
 import ru.manager.Task;
-import ru.manager.TaskManager;
+import ru.manager.InMemoryTaskManager;
 
 public class Main {
 
     public static void main(String[] args) {
-        TaskManager taskManager = new TaskManager();
+        InMemoryTaskManager taskManager = new InMemoryTaskManager();
 
-        Task task1 = new Task(taskManager.generateNewId(),"Задача 1", "Тестовая 1");
-        Task task2 = new Task(taskManager.generateNewId(), "Задача 2", null);
+        Task task1 = new Task("Задача 1", "Тестовая 1");
+        Task task2 = new Task("Задача 2", null);
 
         taskManager.addNewTask(task1);
         taskManager.addNewTask(task2);
@@ -19,8 +19,8 @@ public class Main {
 
         System.out.println(taskManager.getTaskById(2).toString());
 
-        Epic epic1 = new Epic(taskManager.generateNewId(), "Эпик 1", "Тест");
-        Epic epic2 = new Epic(taskManager.generateNewId(), "Эпик 2", "Тест");
+        Epic epic1 = new Epic("Эпик 1", "Тест");
+        Epic epic2 = new Epic("Эпик 2", "Тест");
 
         taskManager.addNewEpic(epic1);
         taskManager.addNewEpic(epic2);
@@ -28,8 +28,8 @@ public class Main {
 
         System.out.println(taskManager.getEpicById(4).toString());
 
-        SubTask subTask1 = new SubTask(taskManager.generateNewId(), "Подзадача 1", "Тест", 4);
-        SubTask subTask2 = new SubTask(taskManager.generateNewId(), "Подзадача 2", "Тест", 4);
+        SubTask subTask1 = new SubTask("Подзадача 1", "Тест", 4);
+        SubTask subTask2 = new SubTask("Подзадача 2", "Тест", 4);
 
         taskManager.addNewSubTask(subTask1);
         taskManager.addNewSubTask(subTask2);
@@ -48,7 +48,7 @@ public class Main {
 
         System.out.println(taskManager.getEpicById(4).toString());
 
-        SubTask subTask3 = new SubTask(taskManager.generateNewId(), "Подзадача 3", "Тест", 4);
+        SubTask subTask3 = new SubTask("Подзадача 3", "Тест", 4);
 
         taskManager.addNewSubTask(subTask3);
 
