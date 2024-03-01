@@ -1,8 +1,9 @@
 package ru.manager;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public interface TaskManager {
+public interface TaskManager<T extends Task> {
     void addNewTask (Task task);
 
     void addNewSubTask (SubTask subTask);
@@ -36,4 +37,6 @@ public interface TaskManager {
     SubTask getSubTaskById (int id);
 
     ArrayList<SubTask> getSubTasksByEpicId (int epicId);
+
+    List<Task> getHistory();
 }
