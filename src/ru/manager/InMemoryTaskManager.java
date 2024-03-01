@@ -4,12 +4,15 @@ import ru.TaskStatus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
     private static int id = 0;
     public HashMap<Integer, Task> tasks = new HashMap<>();
     public HashMap<Integer, Epic> epics = new HashMap<>();
     public HashMap<Integer, SubTask> subTasks = new HashMap<>();
+
+    public List<Integer> taskIdHistory = new ArrayList<>();
 
 
     @Override
@@ -113,17 +116,44 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Task getTaskById (int id) { //получение задачи по id
+        listSizeChecker();
+        taskIdHistory.add(id);
         return tasks.get(id);
     }
 
     @Override
     public Epic getEpicById (int id) { //получение эпика по id
+        listSizeChecker();
+        taskIdHistory.add(id);
         return epics.get(id);
     }
 
     @Override
     public SubTask getSubTaskById (int id){ //метод получения
+        listSizeChecker();
+        taskIdHistory.add(id);
         return subTasks.get(id);
+    }
+
+    @Override
+    public List<Task> getHistory(){
+        List<Task> history = new ArrayList<>();
+        for (Integer id : taskIdHistory){
+            if(tasks.containsKey(id)){
+                history.add(tasks.get(id));
+            } else if(epics.containsKey(id)) {
+                history.add(epics.get(id));
+            } else if(subTasks.containsKey(id)) {
+                history.add(subTasks.get(id));
+            }
+        }
+        return history;
+    }
+
+    private void listSizeChecker(){
+        if (taskIdHistory.size() == 10){
+            tasks.remove(0);
+        }
     }
 
     @Override
@@ -135,7 +165,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
         return subTasksByEpicId;
     }
-    public int generateNewId() { //метод генерации уникального id.
+    private int generateNewId() { //метод генерации уникального id.
         id++;
         return id;
     }
