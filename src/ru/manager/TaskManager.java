@@ -3,7 +3,7 @@ package ru.manager;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface TaskManager<T extends Task> {
+public interface TaskManager {
     void addNewTask (Task task);
 
     void addNewSubTask (SubTask subTask);
