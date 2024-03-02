@@ -4,9 +4,8 @@ import ru.manager.*;
 import ru.manager.interfaces.TaskManager;
 
 public class Main {
-
+    static TaskManager taskManager = Managers.getDefaultTaskManager();
     public static void main(String[] args) {
-        TaskManager taskManager = new InMemoryTaskManager();
 
         Task task1 = new Task("Задача 1", "Тестовая 1");
         Task task2 = new Task("Задача 2", null);
@@ -53,6 +52,9 @@ public class Main {
         System.out.println(taskManager.getSubTasksByEpicId(4));
         System.out.println(taskManager.getEpicById(4).toString());
 
-
+        System.out.println("История:");
+        for (Task task : taskManager.getHistory()) {
+            System.out.println(task);
+        }
     }
 }
