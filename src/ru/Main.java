@@ -1,14 +1,11 @@
 package ru;
 
-import ru.manager.Epic;
-import ru.manager.SubTask;
-import ru.manager.Task;
-import ru.manager.InMemoryTaskManager;
+import ru.manager.*;
 
 public class Main {
 
     public static void main(String[] args) {
-        InMemoryTaskManager taskManager = new InMemoryTaskManager();
+        TaskManager taskManager = new InMemoryTaskManager();
 
         Task task1 = new Task("Задача 1", "Тестовая 1");
         Task task2 = new Task("Задача 2", null);
@@ -55,8 +52,6 @@ public class Main {
         System.out.println(taskManager.getSubTasksByEpicId(4));
         System.out.println(taskManager.getEpicById(4).toString());
 
-        taskManager.removeAllTasks();
-        taskManager.removeAllSubTasks();
-        taskManager.removeAllEpics();
+
     }
 }
