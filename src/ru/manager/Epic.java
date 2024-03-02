@@ -1,7 +1,5 @@
 package ru.manager;
 
-import ru.TaskStatus;
-
 import java.util.ArrayList;
 import java.util.List;
 

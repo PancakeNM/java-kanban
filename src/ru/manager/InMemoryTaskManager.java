@@ -1,6 +1,6 @@
 package ru.manager;
 
-import ru.TaskStatus;
+import ru.manager.interfaces.TaskManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -135,7 +135,6 @@ public class InMemoryTaskManager implements TaskManager {
         return subTasks.get(id);
     }
 
-    @Override
     public List<Task> getHistory(){
         List<Task> history = new ArrayList<>();
         for (Integer id : taskIdHistory){

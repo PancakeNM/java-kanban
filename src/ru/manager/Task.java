@@ -1,6 +1,5 @@
 package ru.manager;
 
-import ru.TaskStatus;
 import java.util.Objects;
 
 public class Task {
