@@ -1,6 +1,5 @@
 package ru.manager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface TaskManager {
