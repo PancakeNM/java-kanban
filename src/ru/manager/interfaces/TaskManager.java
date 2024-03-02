@@ -40,4 +40,6 @@ public interface TaskManager {
     SubTask getSubTaskById (int id);
 
     List<SubTask> getSubTasksByEpicId (int epicId);
+
+    List<Task> getHistory();
 }

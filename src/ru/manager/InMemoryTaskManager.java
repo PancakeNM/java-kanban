@@ -8,11 +8,11 @@ import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
     private static int id = 0;
-    public HashMap<Integer, Task> tasks = new HashMap<>();
-    public HashMap<Integer, Epic> epics = new HashMap<>();
-    public HashMap<Integer, SubTask> subTasks = new HashMap<>();
+    private HashMap<Integer, Task> tasks = new HashMap<>();
+    private HashMap<Integer, Epic> epics = new HashMap<>();
+    private HashMap<Integer, SubTask> subTasks = new HashMap<>();
 
-    public List<Integer> taskIdHistory = new ArrayList<>();
+    private List<Integer> taskIdHistory = new ArrayList<>();
 
 
     @Override
@@ -135,6 +135,7 @@ public class InMemoryTaskManager implements TaskManager {
         return subTasks.get(id);
     }
 
+    @Override
     public List<Task> getHistory(){
         List<Task> history = new ArrayList<>();
         for (Integer id : taskIdHistory){
