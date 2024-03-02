@@ -1,4 +1,8 @@
-package ru.manager;
+package ru.manager.interfaces;
+
+import ru.manager.Epic;
+import ru.manager.SubTask;
+import ru.manager.Task;
 
 import java.util.List;
 
@@ -36,6 +40,4 @@ public interface TaskManager {
     SubTask getSubTaskById (int id);
 
     List<SubTask> getSubTasksByEpicId (int epicId);
-
-    List<Task> getHistory();
 }
