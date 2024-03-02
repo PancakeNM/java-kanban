@@ -50,8 +50,8 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void epicStatusUpdater (SubTask newSubTask){ //Метод, отвечающий за логику обновления статуса эпика
         Epic epic = epics.get(newSubTask.getEpicId()); // получение эпика, к которому относится подзадача
-        ArrayList<Integer> subTaskIdsByEpicId = epic.getSubTaskIds();
-        ArrayList<TaskStatus> statuses = new ArrayList<>();
+        List<Integer> subTaskIdsByEpicId = epic.getSubTaskIds();
+        List<TaskStatus> statuses = new ArrayList<>();
         for(int id : subTaskIdsByEpicId){ //занесение статусов подзадач эпика в лист
             SubTask subTask = subTasks.get(id);
             statuses.add(subTask.getStatus());
@@ -157,8 +157,8 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public ArrayList<SubTask> getSubTasksByEpicId (int epicId) {
-        ArrayList<SubTask> subTasksByEpicId = new ArrayList<>();
+    public List<SubTask> getSubTasksByEpicId (int epicId) {
+        List<SubTask> subTasksByEpicId = new ArrayList<>();
         Epic epic = epics.get(epicId);
         for (Integer id : epic.getSubTaskIds()){
             subTasksByEpicId.add(subTasks.get(id));
