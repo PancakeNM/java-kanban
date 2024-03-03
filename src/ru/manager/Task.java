@@ -12,10 +12,14 @@ public class Task {
         this.name = name;
         this.description = description;
     }
-    public Task (int id, String name, String description, TaskStatus status) {
+
+    public Task (int id, String name, String description) {
         this(name, description);
-        this.status = status;
         this.id = id;
+    }
+    public Task (int id, String name, String description, TaskStatus status) {
+        this(id, name, description);
+        this.status = status;
     }
 
     public int getId() {
