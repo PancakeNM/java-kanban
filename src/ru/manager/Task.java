@@ -13,6 +13,12 @@ public class Task {
         this.description = description;
     }
 
+    public Task (String name, String description, TaskStatus status) {
+        this.name = name;
+        this.description = description;
+        this.status = status;
+    }
+
     public Task (int id, String name, String description) {
         this(name, description);
         this.id = id;
@@ -20,6 +26,13 @@ public class Task {
     public Task (int id, String name, String description, TaskStatus status) {
         this(id, name, description);
         this.status = status;
+    }
+
+    public Task(Task task) {
+        this.id = task.id;
+        this.name = task.name;
+        this.description = task.description;
+        this.status = task.status;
     }
 
     public int getId() {
@@ -32,6 +45,10 @@ public class Task {
 
     public String getName() {
         return name;
+    }
+
+    public void setName (String name) {
+        this.name = name;
     }
 
     public String getDescription() {

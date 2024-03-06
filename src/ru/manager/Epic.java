@@ -1,24 +1,34 @@
 package ru.manager;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Epic extends Task {
-    private List<Integer> subTaskIds = new ArrayList<>();
+    private List<Integer> subTaskIds;
     public Epic(String name, String description) {
         super(name, description);
+        subTaskIds = new ArrayList<>();
     }
 
     public Epic(int id, String name, String description) {
         super(id, name, description);
+        subTaskIds = new ArrayList<>();
+    }
+
+    public Epic(Epic epic) {
+       super(epic.id, epic.name, epic.description);
+       this.subTaskIds = epic.subTaskIds;
     }
 
     public List<Integer> getSubTaskIds() {
         return subTaskIds;
     }
 
-    public void addSubTaskId(int Id) {
-        subTaskIds.add(Id);
+    public void addSubTaskId(int subtaskId) {
+        if (id != subtaskId) {
+            subTaskIds.add(subtaskId);
+        }
     }
     public void removeSubTaskId(Integer Id) {
         subTaskIds.remove(Id);

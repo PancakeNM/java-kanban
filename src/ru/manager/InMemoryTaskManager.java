@@ -9,7 +9,7 @@ import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
     HistoryManager historyManager;
-    private static int id = 0;
+    private int id = 0;
     private HashMap<Integer, Task> tasks = new HashMap<>();
     private HashMap<Integer, Epic> epics = new HashMap<>();
     private HashMap<Integer, SubTask> subTasks = new HashMap<>();
@@ -27,6 +27,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void addNewSubTask (SubTask subTask) { //метод добавления новой подзадачи.
+        SubTask newSubTask = subTask;
         subTask.setId(generateNewId());
         subTasks.put(subTask.getId(), subTask);
         Epic epic = epics.get(subTask.getEpicId());

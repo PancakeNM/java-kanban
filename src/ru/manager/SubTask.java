@@ -1,9 +1,14 @@
 package ru.manager;
 
 public class SubTask extends Task {
-    private final int epicId;
+    private int epicId;
     public SubTask(String name, String description, int epicId) {
         super(name, description);
+        this.epicId = epicId;
+    }
+
+    public SubTask(String name, String description, TaskStatus status, int epicId) {
+        super(name, description, status);
         this.epicId = epicId;
     }
 
@@ -17,8 +22,19 @@ public class SubTask extends Task {
         this.epicId = epicId;
     }
 
+    public SubTask(SubTask subTask) {
+        super(subTask.id, subTask.name, subTask.description, subTask.status);
+        this.epicId = subTask.getEpicId();
+    }
+
     public int getEpicId() {
         return epicId;
+    }
+
+    public void setEpicId(int epicId) {
+        if (id != epicId) {
+            this.epicId = epicId;
+        }
     }
 
     @Override
