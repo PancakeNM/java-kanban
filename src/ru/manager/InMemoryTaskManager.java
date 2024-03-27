@@ -152,6 +152,19 @@ public class InMemoryTaskManager implements TaskManager {
         }
         return subTasksByEpicId;
     }
+
+    public HashMap<Integer, Task> getTasks () {
+        return tasks;
+    }
+
+    public HashMap<Integer, Epic> getEpics () {
+        return epics;
+    }
+
+    public HashMap<Integer, SubTask> getSubTasks () {
+        return subTasks;
+    }
+
     private int generateNewId() { //метод генерации уникального id.
         id++;
         return id;
