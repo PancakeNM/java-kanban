@@ -35,7 +35,6 @@ public class InMemoryTaskManager implements TaskManager {
         epicStatusUpdater(subTask);
     }
 
-
     @Override
     public void updateTask(Task task) {
         tasks.put(task.getId(), task);
@@ -76,7 +75,6 @@ public class InMemoryTaskManager implements TaskManager {
         epics.put(epic.getId(), epic);
     }
 
-
     @Override
     public void removeAllTasks() { //удаление всех задач
         tasks.clear();
@@ -95,7 +93,6 @@ public class InMemoryTaskManager implements TaskManager {
             epics.get(id).removeAllSubTaskId();
         }
     }
-
 
     @Override
     public void removeTaskById(int id) { //удаление задачи по id
@@ -117,7 +114,6 @@ public class InMemoryTaskManager implements TaskManager {
         epic.removeSubTaskId(id);
         epicStatusUpdater(subTask);
     }
-
 
     @Override
     public Task getTaskById(int id) { //получение задачи по id
