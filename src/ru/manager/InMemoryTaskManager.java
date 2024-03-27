@@ -27,7 +27,6 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void addNewSubTask (SubTask subTask) { //метод добавления новой подзадачи.
-        SubTask newSubTask = subTask;
         subTask.setId(generateNewId());
         subTasks.put(subTask.getId(), subTask);
         Epic epic = epics.get(subTask.getEpicId());
