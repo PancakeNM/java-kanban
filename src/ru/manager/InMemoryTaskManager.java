@@ -6,13 +6,14 @@ import ru.manager.interfaces.TaskManager;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class InMemoryTaskManager implements TaskManager {
     HistoryManager historyManager;
     private int id = 0;
-    private HashMap<Integer, Task> tasks = new HashMap<>();
-    private HashMap<Integer, Epic> epics = new HashMap<>();
-    private HashMap<Integer, SubTask> subTasks = new HashMap<>();
+    private Map<Integer, Task> tasks = new HashMap<>();
+    private Map<Integer, Epic> epics = new HashMap<>();
+    private Map<Integer, SubTask> subTasks = new HashMap<>();
 
     public InMemoryTaskManager(HistoryManager historyManager) {
         this.historyManager = historyManager;
@@ -152,15 +153,15 @@ public class InMemoryTaskManager implements TaskManager {
         return subTasksByEpicId;
     }
 
-    public HashMap<Integer, Task> getTasks () {
+    public Map<Integer, Task> getTasks () {
         return tasks;
     }
 
-    public HashMap<Integer, Epic> getEpics () {
+    public Map<Integer, Epic> getEpics () {
         return epics;
     }
 
-    public HashMap<Integer, SubTask> getSubTasks () {
+    public Map<Integer, SubTask> getSubTasks () {
         return subTasks;
     }
 
