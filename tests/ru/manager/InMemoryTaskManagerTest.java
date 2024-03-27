@@ -2,15 +2,16 @@ package ru.manager;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.manager.interfaces.TaskManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class InMemoryTaskManagerTest {
-    TaskManager manager;
+    InMemoryTaskManager manager;
     @BeforeEach
     public void beforeEach() {
         manager = new InMemoryTaskManager(new InMemoryHistoryManager());
@@ -107,5 +108,20 @@ class InMemoryTaskManagerTest {
         manager.addNewSubTask(subTask);
 
         assertEquals(subTask, manager.getSubTaskById(2));
+    }
+
+    @Test
+    public void shouldDeleteSubtasksWhenCorrespondingEpicIsDeleted() {
+        Epic epic = new Epic("te", "td");
+        manager.addNewEpic(epic);
+        SubTask subTask = new SubTask("t", "td", 1);
+        SubTask subTask2 = new SubTask("tt", "ttd", 1);
+        SubTask subTask3 = new SubTask("ttt", "tttd", 1);
+        manager.addNewSubTask(subTask);
+        manager.addNewSubTask(subTask2);
+        manager.addNewSubTask(subTask3);
+        manager.removeEpicById(epic.getId());
+
+        assertEquals(new HashMap<>(), manager.getSubTasks());
     }
 }
