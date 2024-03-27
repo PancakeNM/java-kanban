@@ -39,8 +39,14 @@ public class InMemoryHistoryManager implements HistoryManager {
         Node<Task> rNext = removableNode.next;
         Node<Task> rPrev = removableNode.prev;
 
-        rNext.prev = rPrev;
-        rPrev.next = rNext;
+        if (rNext != null && rPrev != null) {
+            rNext.prev = rPrev;
+            rPrev.next = rNext;
+        } else if (rNext == null) {
+            rPrev.next = null;
+        } else if (rPrev == null) {
+            rNext.prev = null;
+        }
 
         history.remove(id);
     }
