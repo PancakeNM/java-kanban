@@ -39,20 +39,20 @@ public class InMemoryTaskManager implements TaskManager {
     public void updateTask(Task task) {
         tasks.put(task.getId(), task);
     }
-    
+
     @Override
     public void updateSubTask(SubTask subTask) {
         subTasks.put(subTask.getId(), subTask);
         epicStatusUpdater(subTask);
     }
-    
+
     @Override
     public void updateEpic(Epic epic) {
         epics.put(epic.getId(), epic);
     }
 
     @Override
-    public void epicStatusUpdater(SubTask newSubTask){ //Метод, отвечающий за логику обновления статуса эпика
+    public void epicStatusUpdater(SubTask newSubTask) { //Метод, отвечающий за логику обновления статуса эпика
         Epic epic = epics.get(newSubTask.getEpicId()); // получение эпика, к которому относится подзадача
         List<Integer> subTaskIdsByEpicId = epic.getSubTaskIds();
         List<TaskStatus> statuses = new ArrayList<>();
@@ -60,7 +60,7 @@ public class InMemoryTaskManager implements TaskManager {
             SubTask subTask = subTasks.get(id);
             statuses.add(subTask.getStatus());
         }
-        if (!statuses.contains(TaskStatus.IN_PROGRESS) && !statuses.contains(TaskStatus.NEW)){
+        if (!statuses.contains(TaskStatus.IN_PROGRESS) && !statuses.contains(TaskStatus.NEW)) {
             epic.setStatus(TaskStatus.DONE);
         } else if (!statuses.contains(TaskStatus.IN_PROGRESS) && !statuses.contains(TaskStatus.DONE)) {
             epic.setStatus(TaskStatus.NEW);
@@ -142,7 +142,7 @@ public class InMemoryTaskManager implements TaskManager {
     public List<SubTask> getSubTasksByEpicId(int epicId) {
         List<SubTask> subTasksByEpicId = new ArrayList<>();
         Epic epic = epics.get(epicId);
-        for (Integer id : epic.getSubTaskIds()){
+        for (Integer id : epic.getSubTaskIds()) {
             historyManager.add(subTasks.get(id));
             subTasksByEpicId.add(subTasks.get(id));
         }
