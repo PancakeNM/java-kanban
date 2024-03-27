@@ -5,7 +5,7 @@ class Node<T extends Task> {
     public Node<T> next;
     public T data;
 
-    public Node (T data) {
+    public Node(T data) {
         this.data = data;
         this.next = null;
         this.prev = null;
