@@ -124,4 +124,16 @@ class InMemoryTaskManagerTest {
 
         assertEquals(new HashMap<>(), manager.getSubTasks());
     }
+
+    @Test
+    public void shouldDeleteSubtaskIdFromEpicsListOfSubtaskIds() {
+        Epic epic = new Epic("te", "td");
+        manager.addNewEpic(epic);
+        SubTask subTask = new SubTask("ts", "tsd", 1);
+        manager.addNewSubTask(subTask);
+
+        manager.removeSubTaskById(subTask.getId());
+
+        assertEquals(new ArrayList<>(), epic.getSubTaskIds());
+    }
 }
