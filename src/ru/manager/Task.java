@@ -39,7 +39,7 @@ public class Task {
         return id;
     }
 
-    public void setId (int id) {
+    protected void setId (int id) {
         this.id = id;
     }
 
@@ -47,7 +47,7 @@ public class Task {
         return name;
     }
 
-    public void setName (String name) {
+    protected void setName (String name) {
         this.name = name;
     }
 
@@ -55,7 +55,7 @@ public class Task {
         return description;
     }
 
-    public void setDescription(String description) {
+    protected void setDescription(String description) {
         this.description = description;
     }
 
