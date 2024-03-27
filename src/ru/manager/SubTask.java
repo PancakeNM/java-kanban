@@ -2,6 +2,7 @@ package ru.manager;
 
 public class SubTask extends Task {
     private int epicId;
+
     public SubTask(String name, String description, int epicId) {
         super(name, description);
         this.epicId = epicId;
@@ -38,7 +39,7 @@ public class SubTask extends Task {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         String result = "SubTask {" +
                 "Id='" + id + '\'' +
                 ", name='" + name + '\'';
