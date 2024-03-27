@@ -65,7 +65,7 @@ public class Task {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         String result = "Task {" +
                 "Id='" + id + '\'' +
                 ", name='" + name + '\'';
