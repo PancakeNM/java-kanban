@@ -8,22 +8,23 @@ public class Task {
     protected TaskStatus status = TaskStatus.NEW;
     protected int id;
 
-    public Task (String name, String description) {
+    public Task(String name, String description) {
         this.name = name;
         this.description = description;
     }
 
-    public Task (String name, String description, TaskStatus status) {
+    public Task(String name, String description, TaskStatus status) {
         this.name = name;
         this.description = description;
         this.status = status;
     }
 
-    public Task (int id, String name, String description) {
+    public Task(int id, String name, String description) {
         this(name, description);
         this.id = id;
     }
-    public Task (int id, String name, String description, TaskStatus status) {
+
+    public Task(int id, String name, String description, TaskStatus status) {
         this(id, name, description);
         this.status = status;
     }
@@ -39,7 +40,7 @@ public class Task {
         return id;
     }
 
-    public void setId (int id) {
+    protected void setId(int id) {
         this.id = id;
     }
 
@@ -47,7 +48,7 @@ public class Task {
         return name;
     }
 
-    public void setName (String name) {
+    protected void setName(String name) {
         this.name = name;
     }
 
@@ -55,7 +56,7 @@ public class Task {
         return description;
     }
 
-    public void setDescription(String description) {
+    protected void setDescription(String description) {
         this.description = description;
     }
 
@@ -64,7 +65,7 @@ public class Task {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         String result = "Task {" +
                 "Id='" + id + '\'' +
                 ", name='" + name + '\'';
@@ -89,7 +90,7 @@ public class Task {
     }
 
     @Override
-    public int hashCode () {
+    public int hashCode() {
         return Objects.hash(name, description, status, id);
     }
 }
