@@ -40,10 +40,6 @@ public class Epic extends Task {
         subTaskIds.clear();
     }
 
-    protected void setStatus(TaskStatus status) {
-        this.status = status;
-    }
-
     @Override
     public String toString() {
         String result = "Epic {" +
