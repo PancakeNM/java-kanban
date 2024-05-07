@@ -100,4 +100,62 @@ public class FileBackedTaskManager extends InMemoryTaskManager{
                 subTask.getStatus() + "," + subTask.getDescription() + "," + subTask.getEpicId());
         return sb.toString();
     }
+
+    private Task fromString(String value) {
+        Task tsk = null;
+        String[] values = value.split(",");
+        switch (values[1]) {
+            case "TASK":
+                switch(values[3]) {
+                    case "NEW":
+                        tsk = new Task(Integer.parseInt(values[0]), values[2], values[4]);
+                        tasks.put(tsk.getId(), tsk);
+                        break;
+                    case "IN_PROGRESS":
+                        tsk = new Task(Integer.parseInt(values[0]), values[2], values[4], TaskStatus.IN_PROGRESS);
+                        tasks.put(tsk.getId(), tsk);
+                        break;
+                    case "DONE":
+                        tsk = new Task(Integer.parseInt(values[0]), values[2], values[4], TaskStatus.DONE);
+                        tasks.put(tsk.getId(), tsk);
+                        break;
+                }
+                break;
+            case "EPIC":
+                switch(values[3]) {
+                    case "NEW":
+                        tsk = new Epic(Integer.parseInt(values[0]), values[2], values[4]);
+                        tasks.put(tsk.getId(), tsk);
+                        break;
+                    case "IN_PROGRESS":
+                        tsk = new Epic(Integer.parseInt(values[0]), values[2], values[4], TaskStatus.IN_PROGRESS);
+                        tasks.put(tsk.getId(), tsk);
+                        break;
+                    case "DONE":
+                        tsk = new Epic(Integer.parseInt(values[0]), values[2], values[4], TaskStatus.DONE);
+                        tasks.put(tsk.getId(), tsk);
+                        break;
+                }
+                break;
+            case "SUBTASK":
+                switch(values[3]) {
+                    case "NEW":
+                        tsk = new SubTask(Integer.parseInt(values[0]), values[2], values[4], Integer.parseInt(values[5]));
+                        tasks.put(tsk.getId(), tsk);
+                        break;
+                    case "IN_PROGRESS":
+                        tsk = new SubTask(Integer.parseInt(values[0]), values[2], values[4], TaskStatus.IN_PROGRESS,
+                                Integer.parseInt(values[5]));
+                        tasks.put(tsk.getId(), tsk);
+                        break;
+                    case "DONE":
+                        tsk = new SubTask(Integer.parseInt(values[0]), values[2], values[4], TaskStatus.DONE,
+                                Integer.parseInt(values[5]));
+                        tasks.put(tsk.getId(), tsk);
+                        break;
+                }
+                break;
+        }
+        return tsk;
+    }
 }
