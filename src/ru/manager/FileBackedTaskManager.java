@@ -82,4 +82,22 @@ public class FileBackedTaskManager extends InMemoryTaskManager{
         super.removeSubTaskById(id);
         save();
     }
+
+    private String taskToString(Task task) {
+        StringBuilder sb = new StringBuilder(task.getId() + "," + TaskType.TASK + "," + task.getName() + "," +
+                                            task.getStatus() + "," + task.getDescription());
+        return sb.toString();
+    }
+
+    private String epicToString(Epic epic) {
+        StringBuilder sb = new StringBuilder(epic.getId() + "," + TaskType.EPIC + "," + epic.getName() + "," +
+                epic.getStatus() + "," + epic.getDescription());
+        return sb.toString();
+    }
+
+    private String subtaskToString(SubTask subTask) {
+        StringBuilder sb = new StringBuilder(subTask.getId() + "," + TaskType.SUBTASK + "," + subTask.getName() + "," +
+                subTask.getStatus() + "," + subTask.getDescription() + "," + subTask.getEpicId());
+        return sb.toString();
+    }
 }
