@@ -64,6 +64,7 @@ class FileBackedTaskManagerTest {
         assertEquals(manager.tasks, actual.tasks);
         assertEquals(manager.epics, actual.epics);
         assertEquals(manager.subTasks, actual.subTasks);
+        assertEquals(manager.getId(), actual.getId());
     }
 
     @Test
