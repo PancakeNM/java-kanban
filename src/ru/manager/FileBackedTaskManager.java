@@ -55,7 +55,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager{
                 lines.add(br.readLine());
             }
         } catch(IOException e) {
-            System.out.println("Ошибка чтения файла.");
+            throw new IOException("Ошибка чтения файла.");
         }
         for (int i = 1; i < lines.size(); i++) {
             if (manager.taskFromString(lines.get(i)) != null && lines.get(i).contains("TASK")) {
@@ -71,6 +71,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager{
                 System.out.println("В выбранном файле задач не обнаружено.");
             }
         }
+        manager.setId(lines.size() - 1);
         return manager;
     }
 
