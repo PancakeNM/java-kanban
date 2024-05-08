@@ -38,6 +38,35 @@ class FileBackedTaskManagerTest {
     }
 
     @Test
+    public void shouldSaveAllTasksToFile() {
+        Task task = new Task("Ttest", "Ttestd");
+        Epic epic = new Epic("Etest", "Etestd");
+        SubTask subtask = new SubTask("Stest", "Stestd", 2);
+        File initialFile = new File(file.getFileName().toString());
+        manager.addNewTask(task);
+        manager.addNewEpic(epic);
+        manager.addNewSubTask(subtask);
+
+        assertNotEquals(initialFile, file.toFile());
+    }
+
+    @Test
+    public void shouldLoadAllTasksFromFile() {
+        Task task = new Task("Ttest", "Ttestd");
+        Epic epic = new Epic("Etest", "Etestd");
+        SubTask subtask = new SubTask("Stest", "Stestd", 2);
+        manager.addNewTask(task);
+        manager.addNewEpic(epic);
+        manager.addNewSubTask(subtask);
+
+        FileBackedTaskManager actual = FileBackedTaskManager.loadFromFile(file.toFile());
+
+        assertEquals(manager.tasks, actual.tasks);
+        assertEquals(manager.epics, actual.epics);
+        assertEquals(manager.subTasks, actual.subTasks);
+    }
+
+    @Test
     public void canFindCreatedTaskById() {
         Task task = new Task("t", "td");
         manager.addNewTask(task);
