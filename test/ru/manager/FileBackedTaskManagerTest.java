@@ -28,6 +28,16 @@ class FileBackedTaskManagerTest {
     }
 
     @Test
+    public void shouldSaveAndLoadEmptyFile() {
+        manager.save();
+        FileBackedTaskManager actual = FileBackedTaskManager.loadFromFile(file.toFile());
+
+        assertEquals(manager.tasks, actual.tasks);
+        assertEquals(manager.epics, actual.epics);
+        assertEquals(manager.subTasks, actual.subTasks);
+    }
+
+    @Test
     public void canFindCreatedTaskById() {
         Task task = new Task("t", "td");
         manager.addNewTask(task);
