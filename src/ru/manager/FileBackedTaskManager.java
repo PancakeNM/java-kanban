@@ -59,15 +59,22 @@ public class FileBackedTaskManager extends InMemoryTaskManager{
             throw new ManagerLoadException("Ошибка чтения файла.");
         }
         for (int i = 1; i < lines.size(); i++) {
-            if (manager.taskFromString(lines.get(i)) != null && lines.get(i).contains("TASK")) {
-                Task newTask = new Task(manager.taskFromString(lines.get(i)));
-                manager.tasks.put(newTask.getId(), newTask);
-            } else if (manager.epicFromString(lines.get(i)) != null && lines.get(i).contains("EPIC")) {
-                Epic newTask = new Epic(manager.epicFromString(lines.get(i)));
-                manager.epics.put(newTask.getId(), newTask);
-            } else if (manager.subtaskFromString(lines.get(i)) != null && lines.get(i).contains("SUBTASK")) {
-                SubTask newTask = new SubTask(manager.subtaskFromString(lines.get(i)));
-                manager.subTasks.put(newTask.getId(), newTask);
+            if (manager.taskFromString(lines.get(i)) != null) {
+                String[] values = lines.get(i).split(",");
+                switch(values[1]) {
+                    case "TASK":
+                        Task newTask = new Task(manager.taskFromString(lines.get(i)));
+                        manager.tasks.put(newTask.getId(), newTask);
+                        break;
+                    case "EPIC":
+                        Epic newEpic = new Epic(manager.epicFromString(lines.get(i)));
+                        manager.epics.put(newEpic.getId(), newEpic);
+                        break;
+                    case "SUBTASK":
+                        SubTask newSubtask = new SubTask(manager.subtaskFromString(lines.get(i)));
+                        manager.subTasks.put(newSubtask.getId(), newSubtask);
+                        break;
+                }
             }
         }
         manager.setId(lines.size() - 1);
