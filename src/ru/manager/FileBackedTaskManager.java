@@ -67,8 +67,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager{
             } else if (manager.taskFromString(lines.get(i)) != null && lines.get(i).contains("SUBTASK")) {
                 SubTask newTask = new SubTask(manager.subtaskFromString(lines.get(i)));
                 manager.subTasks.put(newTask.getId(), newTask);
-            } else if (manager.taskFromString(lines.get(i)) == null) {
-                System.out.println("В выбранном файле задач не обнаружено.");
             }
         }
         manager.setId(lines.size() - 1);
