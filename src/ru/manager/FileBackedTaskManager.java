@@ -11,7 +11,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileBackedTaskManager extends InMemoryTaskManager{
+public class FileBackedTaskManager extends InMemoryTaskManager {
 
     private Path file;
 
@@ -55,13 +55,13 @@ public class FileBackedTaskManager extends InMemoryTaskManager{
             while (br.ready()) {
                 lines.add(br.readLine());
             }
-        } catch(IOException e) {
+        } catch (IOException e) {
             throw new ManagerLoadException("Ошибка чтения файла.");
         }
         for (int i = 1; i < lines.size(); i++) {
             if (manager.taskFromString(lines.get(i)) != null) {
                 String[] values = lines.get(i).split(",");
-                switch(values[1]) {
+                switch (values[1]) {
                     case "TASK":
                         Task newTask = new Task(manager.taskFromString(lines.get(i)));
                         manager.tasks.put(newTask.getId(), newTask);
@@ -174,7 +174,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager{
     private Task taskFromString(String value) {
         Task tsk;
         String[] values = value.split(",");
-        switch(values[3]) {
+        switch (values[3]) {
             case "NEW":
                 tsk = new Task(Integer.parseInt(values[0]), values[2], values[4]);
                 return tsk;
@@ -192,7 +192,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager{
     private Epic epicFromString(String value) {
         Epic tsk;
         String[] values = value.split(",");
-        switch(values[3]) {
+        switch (values[3]) {
             case "NEW":
                 tsk = new Epic(Integer.parseInt(values[0]), values[2], values[4]);
                 return tsk;
@@ -210,7 +210,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager{
     private SubTask subtaskFromString(String value) {
         SubTask tsk;
         String[] values = value.split(",");
-        switch(values[3]) {
+        switch (values[3]) {
             case "NEW":
                 tsk = new SubTask(Integer.parseInt(values[0]), values[2], values[4],
                         Integer.parseInt(values[5]));
