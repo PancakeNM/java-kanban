@@ -62,10 +62,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager{
             if (manager.taskFromString(lines.get(i)) != null && lines.get(i).contains("TASK")) {
                 Task newTask = new Task(manager.taskFromString(lines.get(i)));
                 manager.tasks.put(newTask.getId(), newTask);
-            } else if (manager.taskFromString(lines.get(i)) != null && lines.get(i).contains("EPIC")) {
+            } else if (manager.epicFromString(lines.get(i)) != null && lines.get(i).contains("EPIC")) {
                 Epic newTask = new Epic(manager.epicFromString(lines.get(i)));
                 manager.epics.put(newTask.getId(), newTask);
-            } else if (manager.taskFromString(lines.get(i)) != null && lines.get(i).contains("SUBTASK")) {
+            } else if (manager.subtaskFromString(lines.get(i)) != null && lines.get(i).contains("SUBTASK")) {
                 SubTask newTask = new SubTask(manager.subtaskFromString(lines.get(i)));
                 manager.subTasks.put(newTask.getId(), newTask);
             }
