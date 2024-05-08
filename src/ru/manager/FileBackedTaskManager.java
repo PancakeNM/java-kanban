@@ -2,6 +2,7 @@ package ru.manager;
 
 import ru.Managers;
 import ru.manager.interfaces.HistoryManager;
+import ru.manager.utility.ManagerLoadException;
 import ru.manager.utility.ManagerSaveException;
 
 import java.io.*;
@@ -47,7 +48,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager{
         }
     }
 
-    static FileBackedTaskManager loadFromFile(File file) throws IOException{
+    static FileBackedTaskManager loadFromFile(File file) throws ManagerLoadException {
         FileBackedTaskManager manager = new FileBackedTaskManager(Managers.getDefaultHistoryManager(), file.toPath());
         List<String> lines = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
@@ -55,7 +56,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager{
                 lines.add(br.readLine());
             }
         } catch(IOException e) {
-            throw new IOException("Ошибка чтения файла.");
+            throw new ManagerLoadException("Ошибка чтения файла.");
         }
         for (int i = 1; i < lines.size(); i++) {
             if (manager.taskFromString(lines.get(i)) != null && lines.get(i).contains("TASK")) {
