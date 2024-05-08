@@ -1,14 +1,77 @@
 package ru.manager;
 
+import ru.Managers;
 import ru.manager.interfaces.HistoryManager;
+import ru.manager.utility.ManagerSaveException;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileBackedTaskManager extends InMemoryTaskManager{
-    public FileBackedTaskManager(HistoryManager historyManager) {
+
+    private Path file;
+
+    public FileBackedTaskManager(HistoryManager historyManager, Path file) {
         super(historyManager);
+        this.file = file;
     }
 
-    public void save() {
+    public void save() throws ManagerSaveException {
+        List<String> lines = new ArrayList<>();
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file.toFile(), StandardCharsets.UTF_8))) {
+            if (!tasks.isEmpty()) {
+                for (Task task : tasks.values()) {
+                    lines.add(taskToString(task));
+                }
+            }
+            if (!epics.isEmpty()) {
+                for (Epic epic : epics.values()) {
+                    lines.add(epicToString(epic));
+                }
+            }
+            if (!subTasks.isEmpty()) {
+                for (SubTask subtask : subTasks.values()) {
+                    lines.add(subtaskToString(subtask));
+                }
+            }
+            bw.write("id,type,name,status,description,epic");
+            bw.newLine();
+            for (String str : lines) {
+                bw.write(str + "\n");
+            }
+        } catch (IOException exp) {
+            throw new ManagerSaveException("Ошибка записи в файл.");
+        }
+    }
 
+    static FileBackedTaskManager loadFromFile(File file) throws IOException{
+        FileBackedTaskManager manager = new FileBackedTaskManager(Managers.getDefaultHistoryManager(), file.toPath());
+        List<String> lines = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            while (br.ready()) {
+                lines.add(br.readLine());
+            }
+        } catch(IOException e) {
+            System.out.println("Ошибка чтения файла.");
+        }
+        for (int i = 1; i < lines.size(); i++) {
+            if (manager.taskFromString(lines.get(i)) != null && lines.get(i).contains("TASK")) {
+                Task newTask = new Task(manager.taskFromString(lines.get(i)));
+                manager.tasks.put(newTask.getId(), newTask);
+            } else if (manager.taskFromString(lines.get(i)) != null && lines.get(i).contains("EPIC")) {
+                Epic newTask = new Epic(manager.epicFromString(lines.get(i)));
+                manager.epics.put(newTask.getId(), newTask);
+            } else if (manager.taskFromString(lines.get(i)) != null && lines.get(i).contains("SUBTASK")) {
+                SubTask newTask = new SubTask(manager.subtaskFromString(lines.get(i)));
+                manager.subTasks.put(newTask.getId(), newTask);
+            } else if (manager.taskFromString(lines.get(i)) == null) {
+                System.out.println("В выбранном файле задач не обнаружено.");
+            }
+        }
+        return manager;
     }
 
     @Override
@@ -101,61 +164,60 @@ public class FileBackedTaskManager extends InMemoryTaskManager{
         return sb.toString();
     }
 
-    private Task fromString(String value) {
-        Task tsk = null;
+    private Task taskFromString(String value) {
+        Task tsk;
         String[] values = value.split(",");
-        switch (values[1]) {
-            case "TASK":
-                switch(values[3]) {
-                    case "NEW":
-                        tsk = new Task(Integer.parseInt(values[0]), values[2], values[4]);
-                        tasks.put(tsk.getId(), tsk);
-                        break;
-                    case "IN_PROGRESS":
-                        tsk = new Task(Integer.parseInt(values[0]), values[2], values[4], TaskStatus.IN_PROGRESS);
-                        tasks.put(tsk.getId(), tsk);
-                        break;
-                    case "DONE":
-                        tsk = new Task(Integer.parseInt(values[0]), values[2], values[4], TaskStatus.DONE);
-                        tasks.put(tsk.getId(), tsk);
-                        break;
-                }
-                break;
-            case "EPIC":
-                switch(values[3]) {
-                    case "NEW":
-                        tsk = new Epic(Integer.parseInt(values[0]), values[2], values[4]);
-                        tasks.put(tsk.getId(), tsk);
-                        break;
-                    case "IN_PROGRESS":
-                        tsk = new Epic(Integer.parseInt(values[0]), values[2], values[4], TaskStatus.IN_PROGRESS);
-                        tasks.put(tsk.getId(), tsk);
-                        break;
-                    case "DONE":
-                        tsk = new Epic(Integer.parseInt(values[0]), values[2], values[4], TaskStatus.DONE);
-                        tasks.put(tsk.getId(), tsk);
-                        break;
-                }
-                break;
-            case "SUBTASK":
-                switch(values[3]) {
-                    case "NEW":
-                        tsk = new SubTask(Integer.parseInt(values[0]), values[2], values[4], Integer.parseInt(values[5]));
-                        tasks.put(tsk.getId(), tsk);
-                        break;
-                    case "IN_PROGRESS":
-                        tsk = new SubTask(Integer.parseInt(values[0]), values[2], values[4], TaskStatus.IN_PROGRESS,
-                                Integer.parseInt(values[5]));
-                        tasks.put(tsk.getId(), tsk);
-                        break;
-                    case "DONE":
-                        tsk = new SubTask(Integer.parseInt(values[0]), values[2], values[4], TaskStatus.DONE,
-                                Integer.parseInt(values[5]));
-                        tasks.put(tsk.getId(), tsk);
-                        break;
-                }
-                break;
+        switch(values[3]) {
+            case "NEW":
+                tsk = new Task(Integer.parseInt(values[0]), values[2], values[4]);
+                return tsk;
+            case "IN_PROGRESS":
+                tsk = new Task(Integer.parseInt(values[0]), values[2], values[4], TaskStatus.IN_PROGRESS);
+                return tsk;
+            case "DONE":
+                tsk = new Task(Integer.parseInt(values[0]), values[2], values[4], TaskStatus.DONE);
+                return tsk;
+            default:
+                return null;
         }
-        return tsk;
+    }
+
+    private Epic epicFromString(String value) {
+        Epic tsk;
+        String[] values = value.split(",");
+        switch(values[3]) {
+            case "NEW":
+                tsk = new Epic(Integer.parseInt(values[0]), values[2], values[4]);
+                return tsk;
+            case "IN_PROGRESS":
+                tsk = new Epic(Integer.parseInt(values[0]), values[2], values[4], TaskStatus.IN_PROGRESS);
+                return tsk;
+            case "DONE":
+                tsk = new Epic(Integer.parseInt(values[0]), values[2], values[4], TaskStatus.DONE);
+                return tsk;
+            default:
+                return null;
+        }
+    }
+
+    private SubTask subtaskFromString(String value) {
+        SubTask tsk;
+        String[] values = value.split(",");
+        switch(values[3]) {
+            case "NEW":
+                tsk = new SubTask(Integer.parseInt(values[0]), values[2], values[4],
+                        Integer.parseInt(values[5]));
+                return tsk;
+            case "IN_PROGRESS":
+                tsk = new SubTask(Integer.parseInt(values[0]), values[2], values[4], TaskStatus.IN_PROGRESS,
+                        Integer.parseInt(values[5]));
+                return tsk;
+            case "DONE":
+                tsk = new SubTask(Integer.parseInt(values[0]), values[2], values[4], TaskStatus.DONE,
+                        Integer.parseInt(values[5]));
+                return tsk;
+            default:
+                return null;
+        }
     }
 }
