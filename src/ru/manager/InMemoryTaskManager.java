@@ -165,4 +165,8 @@ public class InMemoryTaskManager implements TaskManager {
         id++;
         return id;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }
