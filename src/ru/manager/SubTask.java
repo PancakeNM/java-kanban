@@ -48,8 +48,11 @@ public class SubTask extends Task {
                     ", status=" + status.toString() + '}';
         } else {
             result = result + ", description.length=" + description.length() +
-                    ", status=" + status.toString() + '}';
+                    ", status=" + status.toString();
         }
+        result = result + "startTime='" + startTime.toString() + '\'' +
+                "duration='" + duration.toString() + '\'' +
+                "endTime='" + endTime.toString() + '}';
         return result;
     }
 }

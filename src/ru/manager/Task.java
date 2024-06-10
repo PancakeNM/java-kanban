@@ -1,5 +1,7 @@
 package ru.manager;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
@@ -9,30 +11,43 @@ public class Task {
     protected String description;
     protected TaskStatus status = TaskStatus.NEW;
     protected int id;
-    private LocalDateTime startTime;
-    private int duration;
-    private LocalDateTime endTime;
+    LocalDateTime startTime; //LocalDateTime в рабочих проектах не использовать!
+    Duration duration;
+    LocalDateTime endTime;
 
-    public Task(String name, String description, LocalDateTime startTime, int duration) {
+    public Task(String name, String description) {
+        this.name = name;
+        this.description = description;
+        this.startTime = LocalDateTime.now();
+        this.duration = Duration.ofMinutes(10);
+        this.endTime = startTime.plus(duration.toMinutes(), ChronoUnit.MINUTES);
+    }
+
+    public Task(String name, String description, TaskStatus status) {
+        this(name, description);
+        this.status = status;
+    }
+
+    public Task(String name, String description, LocalDateTime startTime, Duration duration) {
         this.name = name;
         this.description = description;
         this.startTime = startTime;
         this.duration = duration;
-        this.endTime = startTime.plus(duration, ChronoUnit.MINUTES);
+        this.endTime = startTime.plus(duration.toMinutes(), ChronoUnit.MINUTES);
     }
 
-    public Task(String name, String description, TaskStatus status, LocalDateTime startTime, int duration) {
+    public Task(String name, String description, TaskStatus status, LocalDateTime startTime, Duration duration) {
         this(name, description, startTime, duration);
         this.status = status;
     }
 
-    public Task(int id, String name, String description, LocalDateTime startTime, int duration) {
-        this(name, description, startTime, duration);
+    public Task(int id, String name, String description) {
+        this(name, description);
         this.id = id;
     }
 
-    public Task(int id, String name, String description, TaskStatus status, LocalDateTime startTime, int duration) {
-        this(id, name, description, startTime, duration);
+    public Task(int id, String name, String description, TaskStatus status) {
+        this(id, name, description);
         this.status = status;
     }
 
@@ -55,11 +70,11 @@ public class Task {
         recalculateEndTime();
     }
 
-    public int getDuration() {
+    public Duration getDuration() {
         return duration;
     }
 
-    public void setDuration(int duration) {
+    public void setDuration(Duration duration) {
         this.duration = duration;
         recalculateEndTime();
     }
@@ -69,7 +84,7 @@ public class Task {
     }
 
     private void recalculateEndTime() {
-        this.endTime = startTime.plus(duration, ChronoUnit.MINUTES);
+        this.endTime = startTime.plus(duration.toMinutes(), ChronoUnit.MINUTES);
     }
 
     public int getId() {
@@ -86,6 +101,10 @@ public class Task {
 
     protected void setName(String name) {
         this.name = name;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
     }
 
     public String getDescription() {
@@ -111,11 +130,14 @@ public class Task {
                 ", name='" + name + '\'';
         if (description == null) {
             result = result + ", description=null" +
-                    ", status=" + status.toString() + '}';
+                    ", status=" + status.toString();
         } else {
             result = result + ", description.length=" + description.length() +
-                    ", status=" + status.toString() + '}';
+                    ", status=" + status.toString();
         }
+        result = result + "startTime='" + startTime.toString() + '\'' +
+        "duration='" + duration.toString() + '\'' +
+        "endTime='" + endTime.toString() + '}';
         return result;
     }
 
