@@ -3,10 +3,9 @@ package ru.manager;
 import ru.manager.interfaces.HistoryManager;
 import ru.manager.interfaces.TaskManager;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
     HistoryManager historyManager;
@@ -14,6 +13,7 @@ public class InMemoryTaskManager implements TaskManager {
     protected Map<Integer, Task> tasks = new HashMap<>();
     protected Map<Integer, Epic> epics = new HashMap<>();
     protected Map<Integer, SubTask> subTasks = new HashMap<>();
+    protected TreeSet<Task> prioritizedTasks = new TreeSet<>(Comparator.comparing(Task::getStartTime));
 
     public InMemoryTaskManager(HistoryManager historyManager) {
         this.historyManager = historyManager;
@@ -32,7 +32,7 @@ public class InMemoryTaskManager implements TaskManager {
         subTasks.put(subTask.getId(), subTask);
         Epic epic = epics.get(subTask.getEpicId());
         epic.addSubTaskId(subTask.getId());
-        epicStatusUpdater(subTask);
+        epicUpdater(subTask);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void updateSubTask(SubTask subTask) {
         subTasks.put(subTask.getId(), subTask);
-        epicStatusUpdater(subTask);
+        epicUpdater(subTask);
     }
 
     @Override
@@ -52,14 +52,27 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void epicStatusUpdater(SubTask newSubTask) { //Метод, отвечающий за логику обновления статуса эпика
+    public void epicUpdater(SubTask newSubTask) { //Метод, отвечающий за логику обновления полей эпика
         Epic epic = epics.get(newSubTask.getEpicId()); // получение эпика, к которому относится подзадача
         List<Integer> subTaskIdsByEpicId = epic.getSubTaskIds();
         List<TaskStatus> statuses = new ArrayList<>();
-        for (int id : subTaskIdsByEpicId) { //занесение статусов подзадач эпика в лист
+        LocalDateTime bufferedStartTime = newSubTask.getStartTime();
+        LocalDateTime bufferedEndTime = newSubTask.getEndTime();
+        Duration epicDuration = Duration.ofMinutes(0);
+        for (int id : subTaskIdsByEpicId) { //занесение статусов подзадач эпика в лист и расчет временнЫх полей
             SubTask subTask = subTasks.get(id);
             statuses.add(subTask.getStatus());
+            epicDuration = epicDuration.plus(subTask.getDuration());
+            if (bufferedStartTime.isAfter(subTask.getStartTime())) {
+                bufferedStartTime = subTask.getStartTime();
+            }
+            if (bufferedEndTime.isBefore(subTask.getEndTime())) {
+                bufferedEndTime = subTask.getEndTime();
+            }
         }
+        epic.setDuration(epicDuration);
+        epic.setStartTime(bufferedStartTime);
+        epic.setEndTime(bufferedEndTime);
         if (!statuses.contains(TaskStatus.IN_PROGRESS) && !statuses.contains(TaskStatus.NEW)) {
             epic.setStatus(TaskStatus.DONE);
         } else if (!statuses.contains(TaskStatus.IN_PROGRESS) && !statuses.contains(TaskStatus.DONE)) {
@@ -112,7 +125,7 @@ public class InMemoryTaskManager implements TaskManager {
         SubTask subTask = subTasks.get(id);
         Epic epic = epics.get(subTask.getEpicId());
         epic.removeSubTaskId(id);
-        epicStatusUpdater(subTask);
+        epicUpdater(subTask);
     }
 
     @Override

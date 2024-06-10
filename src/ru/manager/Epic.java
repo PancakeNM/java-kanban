@@ -1,6 +1,8 @@
 package ru.manager;
 
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +39,14 @@ public class Epic extends Task {
         }
     }
 
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
     public void removeSubTaskId(Integer subTaskId) {
         subTaskIds.remove(subTaskId);
     }
@@ -56,8 +66,11 @@ public class Epic extends Task {
         } else {
             result = result + ", description.length=" + description.length() +
                     ", status=" + status.toString() +
-                    ", subTaskIds=" + subTaskIds  + '}';
+                    ", subTaskIds=" + subTaskIds;
         }
+        result = result + "startTime='" + startTime.toString() + '\'' +
+                "duration='" + duration.toString() + '\'' +
+                "endTime='" + endTime.toString() + '}';
         return result;
     }
 }
