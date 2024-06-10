@@ -2,6 +2,8 @@ package ru.manager;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ru.manager.utility.ManagerLoadException;
+import ru.manager.utility.ManagerSaveException;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,8 +31,17 @@ class FileBackedTaskManagerTest {
 
     @Test
     public void shouldSaveAndLoadEmptyFile() {
-        manager.save();
-        FileBackedTaskManager actual = FileBackedTaskManager.loadFromFile(file.toFile());
+        try {
+            manager.save();
+        } catch (ManagerSaveException e) {
+            System.out.println(e.getMessage());
+        }
+        FileBackedTaskManager actual = null;
+        try {
+            actual = FileBackedTaskManager.loadFromFile(file.toFile());
+        } catch (ManagerLoadException e) {
+            System.out.println(e.getMessage());
+        }
 
         assertEquals(manager.tasks, actual.tasks);
         assertEquals(manager.epics, actual.epics);
@@ -59,7 +70,12 @@ class FileBackedTaskManagerTest {
         manager.addNewEpic(epic);
         manager.addNewSubTask(subtask);
 
-        FileBackedTaskManager actual = FileBackedTaskManager.loadFromFile(file.toFile());
+        FileBackedTaskManager actual = null;
+        try {
+            actual = FileBackedTaskManager.loadFromFile(file.toFile());
+        } catch (ManagerLoadException e) {
+            System.out.println(e.getMessage());
+        }
 
         assertEquals(manager.tasks, actual.tasks);
         assertEquals(manager.epics, actual.epics);
