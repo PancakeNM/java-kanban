@@ -84,73 +84,121 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     @Override
     public void addNewTask(Task task) { //метод добавления новой задачи.
         super.addNewTask(task);
-        save();
+        try {
+            save();
+        } catch (ManagerSaveException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
     public void addNewSubTask(SubTask subTask) { //метод добавления новой подзадачи.
         super.addNewSubTask(subTask);
-        save();
+        try {
+            save();
+        } catch (ManagerSaveException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
     public void updateTask(Task task) {
         super.updateTask(task);
-        save();
+        try {
+            save();
+        } catch (ManagerSaveException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
     public void updateSubTask(SubTask subTask) {
         super.updateSubTask(subTask);
-        save();
+        try {
+            save();
+        } catch (ManagerSaveException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
     public void updateEpic(Epic epic) {
         super.updateEpic(epic);
-        save();
+        try {
+            save();
+        } catch (ManagerSaveException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
     public void addNewEpic(Epic epic) { //метод добавления нового эпика.
         super.addNewEpic(epic);
-        save();
+        try {
+            save();
+        } catch (ManagerSaveException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
     public void removeAllTasks() { //удаление всех задач
         super.removeAllTasks();
-        save();
+        try {
+            save();
+        } catch (ManagerSaveException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
     public void removeAllEpics() { //удаление всех эпиков
         super.removeAllEpics();
-        save();
+        try {
+            save();
+        } catch (ManagerSaveException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
     public void removeAllSubTasks() { //удаление всех подзадач
         super.removeAllSubTasks();
-        save();
+        try {
+            save();
+        } catch (ManagerSaveException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
     public void removeTaskById(int id) { //удаление задачи по id
         super.removeTaskById(id);
-        save();
+        try {
+            save();
+        } catch (ManagerSaveException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
     public void removeEpicById(int id) { //удаление эпика по id
         super.removeEpicById(id);
-        save();
+        try {
+            save();
+        } catch (ManagerSaveException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
     public void removeSubTaskById(int id) { //удаление подзадачи по id
         super.removeSubTaskById(id);
-        save();
+        try {
+            save();
+        } catch (ManagerSaveException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private String taskToString(Task task) {
