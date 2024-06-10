@@ -1,6 +1,8 @@
 package ru.manager.utility;
 
-public class ManagerSaveException extends Error {
+import java.io.IOException;
+
+public class ManagerSaveException extends IOException {
     public ManagerSaveException(String message) {
         super(message);
     }

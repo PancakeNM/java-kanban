@@ -1,6 +1,8 @@
 package ru.manager.utility;
 
-public class ManagerLoadException extends Error {
+import java.io.IOException;
+
+public class ManagerLoadException extends IOException {
 
     public ManagerLoadException(String message) {
         super(message);
