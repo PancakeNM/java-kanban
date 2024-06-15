@@ -2,7 +2,10 @@ package ru.manager;
 
 import ru.manager.interfaces.HistoryManager;
 import ru.manager.interfaces.TaskManager;
+import ru.manager.utility.NotFoundException;
+import ru.manager.utility.ValidationException;
 
+import java.io.NotActiveException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -35,9 +38,34 @@ public class InMemoryTaskManager implements TaskManager {
         epicUpdater(subTask);
     }
 
+    private boolean isCrossing(Task t, Task task) {
+        return t.getStartTime().isBefore(task.getEndTime()) && t.getEndTime().isAfter(task.getStartTime())
+                || task.getStartTime().isBefore(t.getEndTime()) && task.getEndTime().isAfter(t.getStartTime())
+                || t.getStartTime().isAfter(task.getStartTime()) && t.getEndTime().isBefore(task.getEndTime())
+                || t.getStartTime().isBefore(task.getStartTime()) && t.getEndTime().isAfter(task.getEndTime());
+    }
+
+    public void validateTaskTime(Task task) {
+        for (Task t : getPrioritizedTasks()) {
+            if (t.getId() == task.getId()) {
+                continue;
+            }
+            if (isCrossing(t, task)) {
+                throw new ValidationException("Пересечение с задачей: " + t.getId());
+            }
+        }
+    }
+
     @Override
     public void updateTask(Task task) {
-        tasks.put(task.getId(), task);
+        Task original = tasks.get(task.getId());
+        if (original == null) {
+            throw new NotFoundException("Task id=" + task.getId());
+        }
+
+        validateTaskTime(task);
+        prioritizedTasks.remove(original);
+        prioritizedTasks.add(task);
     }
 
     @Override
@@ -80,6 +108,10 @@ public class InMemoryTaskManager implements TaskManager {
         } else {
             epic.setStatus(TaskStatus.IN_PROGRESS);
         } // проверка статуса эпика и его обновление
+    }
+
+    public ArrayList<Task> getPrioritizedTasks() {
+        return new ArrayList<>(prioritizedTasks);
     }
 
     @Override
