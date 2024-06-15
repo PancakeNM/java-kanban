@@ -26,12 +26,16 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void addNewTask(Task task) { //метод добавления новой задачи.
         task.setId(generateNewId());
+        validateTaskTime(task);
+        prioritizedTasks.add(task);
         tasks.put(task.getId(), task);
     }
 
     @Override
     public void addNewSubTask(SubTask subTask) { //метод добавления новой подзадачи.
         subTask.setId(generateNewId());
+        validateTaskTime(subTask);
+        prioritizedTasks.add(subTask);
         subTasks.put(subTask.getId(), subTask);
         Epic epic = epics.get(subTask.getEpicId());
         epic.addSubTaskId(subTask.getId());
@@ -70,7 +74,14 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateSubTask(SubTask subTask) {
-        subTasks.put(subTask.getId(), subTask);
+        SubTask original = subTasks.get(subTask.getId());
+        if (original == null) {
+            throw new NotFoundException("SubTask id=" + subTask.getId());
+        }
+
+        validateTaskTime(subTask);
+        prioritizedTasks.remove(original);
+        prioritizedTasks.add(subTask);
         epicUpdater(subTask);
     }
 
