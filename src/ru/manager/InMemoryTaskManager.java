@@ -5,7 +5,6 @@ import ru.manager.interfaces.TaskManager;
 import ru.manager.utility.NotFoundException;
 import ru.manager.utility.ValidationException;
 
-import java.io.NotActiveException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
