@@ -38,7 +38,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     lines.add(subtaskToString(subtask));
                 }
             }
-            bw.write("id,type,name,status,description,epic");
+            bw.write("id,type,name,status,description,epic,duration,startTime");
             bw.newLine();
             for (String str : lines) {
                 bw.write(str + "\n");
@@ -203,19 +203,21 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     private String taskToString(Task task) {
         StringBuilder sb = new StringBuilder(task.getId() + "," + TaskType.TASK + "," + task.getName() + "," +
-                                            task.getStatus() + "," + task.getDescription());
+                                            task.getStatus() + "," + task.getDescription()
+                                            + task.getDuration() + "," + task.getStartTime());
         return sb.toString();
     }
 
     private String epicToString(Epic epic) {
         StringBuilder sb = new StringBuilder(epic.getId() + "," + TaskType.EPIC + "," + epic.getName() + "," +
-                epic.getStatus() + "," + epic.getDescription());
+                epic.getStatus() + "," + epic.getDescription() + epic.getDuration() + "," + epic.getStartTime());
         return sb.toString();
     }
 
     private String subtaskToString(SubTask subTask) {
-        StringBuilder sb = new StringBuilder(subTask.getId() + "," + TaskType.SUBTASK + "," + subTask.getName() + "," +
-                subTask.getStatus() + "," + subTask.getDescription() + "," + subTask.getEpicId());
+        StringBuilder sb = new StringBuilder(subTask.getId() + "," + TaskType.SUBTASK + "," + subTask.getName() + ","
+                + subTask.getStatus() + "," + subTask.getDescription() + "," + subTask.getEpicId() + ","
+                + subTask.getDuration() + "," + subTask.getStartTime());
         return sb.toString();
     }
 
