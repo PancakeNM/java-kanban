@@ -2,6 +2,8 @@ package ru.manager;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ru.manager.utility.ManagerLoadException;
+import ru.manager.utility.ManagerSaveException;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,8 +31,17 @@ class FileBackedTaskManagerTest {
 
     @Test
     public void shouldSaveAndLoadEmptyFile() {
-        manager.save();
-        FileBackedTaskManager actual = FileBackedTaskManager.loadFromFile(file.toFile());
+        try {
+            manager.save();
+        } catch (ManagerSaveException e) {
+            System.out.println(e.getMessage());
+        }
+        FileBackedTaskManager actual = null;
+        try {
+            actual = FileBackedTaskManager.loadFromFile(file.toFile());
+        } catch (ManagerLoadException e) {
+            System.out.println(e.getMessage());
+        }
 
         assertEquals(manager.tasks, actual.tasks);
         assertEquals(manager.epics, actual.epics);
@@ -42,6 +53,7 @@ class FileBackedTaskManagerTest {
         Task task = new Task("Ttest", "Ttestd");
         Epic epic = new Epic("Etest", "Etestd");
         SubTask subtask = new SubTask("Stest", "Stestd", 2);
+        subtask.setStartTime(task.getEndTime().plusMinutes(1));
         File initialFile = new File(file.getFileName().toString());
         manager.addNewTask(task);
         manager.addNewEpic(epic);
@@ -55,11 +67,17 @@ class FileBackedTaskManagerTest {
         Task task = new Task("Ttest", "Ttestd");
         Epic epic = new Epic("Etest", "Etestd");
         SubTask subtask = new SubTask("Stest", "Stestd", 2);
+        subtask.setStartTime(task.getEndTime().plusMinutes(1));
         manager.addNewTask(task);
         manager.addNewEpic(epic);
         manager.addNewSubTask(subtask);
 
-        FileBackedTaskManager actual = FileBackedTaskManager.loadFromFile(file.toFile());
+        FileBackedTaskManager actual = null;
+        try {
+            actual = FileBackedTaskManager.loadFromFile(file.toFile());
+        } catch (ManagerLoadException e) {
+            System.out.println(e.getMessage());
+        }
 
         assertEquals(manager.tasks, actual.tasks);
         assertEquals(manager.epics, actual.epics);
@@ -100,6 +118,8 @@ class FileBackedTaskManagerTest {
         SubTask subTask1 = new SubTask("ttt", "tttd", 1);
         SubTask subTask2 = new SubTask("ttt", "tttd", 1);
         SubTask subTask3 = new SubTask("ttt", "tttd", 1);
+        subTask2.setStartTime(subTask1.getEndTime().plusMinutes(1));
+        subTask3.setStartTime(subTask2.getEndTime().plusMinutes(1));
         manager.addNewSubTask(subTask1);
         manager.addNewSubTask(subTask2);
         manager.addNewSubTask(subTask3);
@@ -126,6 +146,7 @@ class FileBackedTaskManagerTest {
 
         SubTask subTask1 = new SubTask(9, "t", "td", 2);
         int createdSubtaskId = subTask1.getId();
+        subTask1.setStartTime(task2.getEndTime().plusMinutes(1));
         manager.addNewSubTask(subTask1);
         SubTask subTask2 = manager.getSubTaskById(3);
 
@@ -167,6 +188,8 @@ class FileBackedTaskManagerTest {
         SubTask subTask = new SubTask("t", "td", 1);
         SubTask subTask2 = new SubTask("tt", "ttd", 1);
         SubTask subTask3 = new SubTask("ttt", "tttd", 1);
+        subTask2.setStartTime(subTask.getEndTime().plusMinutes(1));
+        subTask3.setStartTime(subTask2.getEndTime().plusMinutes(1));
         manager.addNewSubTask(subTask);
         manager.addNewSubTask(subTask2);
         manager.addNewSubTask(subTask3);
@@ -185,5 +208,57 @@ class FileBackedTaskManagerTest {
         manager.removeSubTaskById(subTask.getId());
 
         assertEquals(new ArrayList<>(), epic.getSubTaskIds());
+    }
+
+    @Test
+    public void epicStatusShouldBeNewWhenAllSubtasksNew() throws InterruptedException {
+        Epic epic = new Epic("te", "td");
+        manager.addNewEpic(epic);
+        SubTask subTask1 = new SubTask("ts1", "tsd", 1);
+        SubTask subTask2 = new SubTask("ts2", "tsd", 1);
+        subTask2.setStartTime(subTask1.getEndTime().plusMinutes(1));
+        manager.addNewSubTask(subTask1);
+        manager.addNewSubTask(subTask2);
+
+        assertEquals(TaskStatus.NEW, epic.getStatus());
+    }
+
+    @Test
+    public void epicStatusShouldBeDoneWhenAllSubtasksDone() throws InterruptedException {
+        Epic epic = new Epic("te", "td");
+        manager.addNewEpic(epic);
+        SubTask subTask1 = new SubTask("ts1", "tsd", TaskStatus.DONE, 1);
+        SubTask subTask2 = new SubTask("ts2", "tsd", TaskStatus.DONE, 1);
+        subTask2.setStartTime(subTask1.getEndTime().plusMinutes(1));
+        manager.addNewSubTask(subTask1);
+        manager.addNewSubTask(subTask2);
+
+        assertEquals(TaskStatus.DONE, epic.getStatus());
+    }
+
+    @Test
+    public void epicStatusShouldBeInProgressWhenAllSubtasksInProgress() throws InterruptedException {
+        Epic epic = new Epic("te", "td");
+        manager.addNewEpic(epic);
+        SubTask subTask1 = new SubTask("ts1", "tsd", TaskStatus.IN_PROGRESS, 1);
+        SubTask subTask2 = new SubTask("ts2", "tsd", TaskStatus.IN_PROGRESS, 1);
+        subTask2.setStartTime(subTask1.getEndTime().plusMinutes(1));
+        manager.addNewSubTask(subTask1);
+        manager.addNewSubTask(subTask2);
+
+        assertEquals(TaskStatus.IN_PROGRESS, epic.getStatus());
+    }
+
+    @Test
+    public void epicStatusShouldBeInProgressWhenOneOreMoreSubtasksNew() throws InterruptedException {
+        Epic epic = new Epic("te", "td");
+        manager.addNewEpic(epic);
+        SubTask subTask1 = new SubTask("ts1", "tsd", TaskStatus.NEW, 1);
+        SubTask subTask2 = new SubTask("ts2", "tsd", TaskStatus.DONE, 1);
+        subTask2.setStartTime(subTask1.getEndTime().plusMinutes(1));
+        manager.addNewSubTask(subTask1);
+        manager.addNewSubTask(subTask2);
+
+        assertEquals(TaskStatus.IN_PROGRESS, epic.getStatus());
     }
 }

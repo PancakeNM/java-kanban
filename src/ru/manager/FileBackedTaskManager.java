@@ -38,7 +38,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     lines.add(subtaskToString(subtask));
                 }
             }
-            bw.write("id,type,name,status,description,epic");
+            bw.write("id,type,name,status,description,epic,duration,startTime");
             bw.newLine();
             for (String str : lines) {
                 bw.write(str + "\n");
@@ -84,90 +84,140 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     @Override
     public void addNewTask(Task task) { //метод добавления новой задачи.
         super.addNewTask(task);
-        save();
+        try {
+            save();
+        } catch (ManagerSaveException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
     public void addNewSubTask(SubTask subTask) { //метод добавления новой подзадачи.
         super.addNewSubTask(subTask);
-        save();
+        try {
+            save();
+        } catch (ManagerSaveException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
     public void updateTask(Task task) {
         super.updateTask(task);
-        save();
+        try {
+            save();
+        } catch (ManagerSaveException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
     public void updateSubTask(SubTask subTask) {
         super.updateSubTask(subTask);
-        save();
+        try {
+            save();
+        } catch (ManagerSaveException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
     public void updateEpic(Epic epic) {
         super.updateEpic(epic);
-        save();
+        try {
+            save();
+        } catch (ManagerSaveException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
     public void addNewEpic(Epic epic) { //метод добавления нового эпика.
         super.addNewEpic(epic);
-        save();
+        try {
+            save();
+        } catch (ManagerSaveException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
     public void removeAllTasks() { //удаление всех задач
         super.removeAllTasks();
-        save();
+        try {
+            save();
+        } catch (ManagerSaveException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
     public void removeAllEpics() { //удаление всех эпиков
         super.removeAllEpics();
-        save();
+        try {
+            save();
+        } catch (ManagerSaveException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
     public void removeAllSubTasks() { //удаление всех подзадач
         super.removeAllSubTasks();
-        save();
+        try {
+            save();
+        } catch (ManagerSaveException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
     public void removeTaskById(int id) { //удаление задачи по id
         super.removeTaskById(id);
-        save();
+        try {
+            save();
+        } catch (ManagerSaveException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
     public void removeEpicById(int id) { //удаление эпика по id
         super.removeEpicById(id);
-        save();
+        try {
+            save();
+        } catch (ManagerSaveException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
     public void removeSubTaskById(int id) { //удаление подзадачи по id
         super.removeSubTaskById(id);
-        save();
+        try {
+            save();
+        } catch (ManagerSaveException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private String taskToString(Task task) {
         StringBuilder sb = new StringBuilder(task.getId() + "," + TaskType.TASK + "," + task.getName() + "," +
-                                            task.getStatus() + "," + task.getDescription());
+                                            task.getStatus() + "," + task.getDescription()
+                                            + task.getDuration() + "," + task.getStartTime());
         return sb.toString();
     }
 
     private String epicToString(Epic epic) {
         StringBuilder sb = new StringBuilder(epic.getId() + "," + TaskType.EPIC + "," + epic.getName() + "," +
-                epic.getStatus() + "," + epic.getDescription());
+                epic.getStatus() + "," + epic.getDescription() + epic.getDuration() + "," + epic.getStartTime());
         return sb.toString();
     }
 
     private String subtaskToString(SubTask subTask) {
-        StringBuilder sb = new StringBuilder(subTask.getId() + "," + TaskType.SUBTASK + "," + subTask.getName() + "," +
-                subTask.getStatus() + "," + subTask.getDescription() + "," + subTask.getEpicId());
+        StringBuilder sb = new StringBuilder(subTask.getId() + "," + TaskType.SUBTASK + "," + subTask.getName() + ","
+                + subTask.getStatus() + "," + subTask.getDescription() + "," + subTask.getEpicId() + ","
+                + subTask.getDuration() + "," + subTask.getStartTime());
         return sb.toString();
     }
 

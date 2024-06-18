@@ -17,7 +17,7 @@ public interface TaskManager {
 
     void updateEpic(Epic epic);
 
-    void epicStatusUpdater(SubTask newSubTask);
+    void epicUpdater(SubTask newSubTask);
 
     void addNewEpic(Epic epic);
 
