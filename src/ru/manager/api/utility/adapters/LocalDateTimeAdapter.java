@@ -1,4 +1,4 @@
-package ru.manager.api.utility;
+package ru.manager.api.utility.adapters;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
