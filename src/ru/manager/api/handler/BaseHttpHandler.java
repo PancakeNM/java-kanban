@@ -1,4 +1,4 @@
-package ru.manager.api;
+package ru.manager.api.handler;
 
 import com.sun.net.httpserver.HttpExchange;
 import java.io.IOException;
