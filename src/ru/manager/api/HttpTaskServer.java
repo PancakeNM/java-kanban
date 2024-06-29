@@ -6,36 +6,26 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import ru.Managers;
-import ru.manager.api.handler.ErrorHandler;
+import ru.manager.api.utility.adapters.DurationTypeAdapter;
+import ru.manager.api.utility.adapters.LocalDateTimeAdapter;
+import ru.manager.api.utility.handlers.ErrorHandler;
 import ru.manager.interfaces.TaskManager;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.time.Duration;
+import java.time.LocalDateTime;
 
 public class HttpTaskServer {
     public static HttpServer httpServer;
     public static final int PORT = 8080;
     public static Gson gson;
+    public static TaskManager manager = Managers.getDefaultTaskManager();
+    public static ErrorHandler errorHandler = new ErrorHandler(getGson());
 
-    public static TaskManager manager;
-
-    public static ErrorHandler errorHandler;
-
-    public HttpTaskServer() {
-        gson = new GsonBuilder()
-                .setPrettyPrinting()
-                .serializeNulls()
-                .create();;
-        manager = Managers.getDefaultTaskManager();
-        errorHandler = new ErrorHandler(gson);
-    }
 
     public static HttpServer getHttpServer() {
         return httpServer;
-    }
-
-    public static Gson getGson() {
-        return gson;
     }
 
     public static TaskManager getManager() {
@@ -119,5 +109,14 @@ public class HttpTaskServer {
                 }
             }
         }
+    }
+
+    public static Gson getGson() {
+        return gson = new GsonBuilder()
+                .setPrettyPrinting()
+                .serializeNulls()
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
+                .registerTypeAdapter(Duration.class, new DurationTypeAdapter())
+                .create();
     }
 }
