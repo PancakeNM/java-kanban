@@ -49,4 +49,6 @@ public interface TaskManager {
     Map<Integer, Epic> getEpics();
 
     Map<Integer, SubTask> getSubTasks();
+
+    List<Task> getPrioritizedTasks();
 }
