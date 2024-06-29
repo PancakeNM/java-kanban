@@ -1,7 +1,6 @@
-package ru.manager.api.handler;
+package ru.manager.api.utility.handlers;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.sun.net.httpserver.HttpExchange;
 
 import ru.manager.api.ErrorType;
@@ -9,7 +8,6 @@ import ru.manager.utility.ManagerIOException;
 import ru.manager.utility.NotFoundException;
 import ru.manager.utility.ValidationException;
 
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 
