@@ -5,6 +5,7 @@ import ru.manager.SubTask;
 import ru.manager.Task;
 
 import java.util.List;
+import java.util.Map;
 
 public interface TaskManager {
     void addNewTask(Task task);
@@ -42,4 +43,10 @@ public interface TaskManager {
     List<SubTask> getSubTasksByEpicId(int epicId);
 
     List<Task> getHistory();
+
+    Map<Integer, Task> getTasks();
+
+    Map<Integer, Epic> getEpics();
+
+    Map<Integer, SubTask> getSubTasks();
 }
