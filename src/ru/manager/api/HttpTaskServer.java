@@ -22,7 +22,10 @@ public class HttpTaskServer {
     public static ErrorHandler errorHandler;
 
     public HttpTaskServer() {
-        gson = new Gson();
+        gson = new GsonBuilder()
+                .setPrettyPrinting()
+                .serializeNulls()
+                .create();;
         manager = Managers.getDefaultTaskManager();
         errorHandler = new ErrorHandler(gson);
     }
