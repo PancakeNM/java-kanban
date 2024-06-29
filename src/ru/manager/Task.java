@@ -2,7 +2,6 @@ package ru.manager;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 public class Task {
@@ -19,7 +18,7 @@ public class Task {
         this.description = description;
         this.startTime = LocalDateTime.now();
         this.duration = Duration.ofMinutes(10);
-        this.endTime = startTime.plus(duration.toMinutes(), ChronoUnit.MINUTES);
+        this.endTime = startTime.plus(duration);
     }
 
     public Task(String name, String description, TaskStatus status) {
@@ -32,7 +31,7 @@ public class Task {
         this.description = description;
         this.startTime = startTime;
         this.duration = duration;
-        this.endTime = startTime.plus(duration.toMinutes(), ChronoUnit.MINUTES);
+        this.endTime = startTime.plus(duration);
     }
 
     public Task(String name, String description, TaskStatus status, LocalDateTime startTime, Duration duration) {
@@ -83,7 +82,7 @@ public class Task {
     }
 
     private void recalculateEndTime() {
-        this.endTime = startTime.plus(duration.toMinutes(), ChronoUnit.MINUTES);
+        this.endTime = startTime.plus(duration);
     }
 
     public int getId() {
