@@ -1,6 +1,7 @@
 package ru.manager.api;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
@@ -18,9 +19,12 @@ public class HttpTaskServer {
 
     public static TaskManager manager;
 
+    public static ErrorHandler errorHandler;
+
     public HttpTaskServer() {
         gson = new Gson();
         manager = Managers.getDefaultTaskManager();
+        errorHandler = new ErrorHandler(gson);
     }
 
     public static HttpServer getHttpServer() {
@@ -60,12 +64,16 @@ public class HttpTaskServer {
 
     static class TaskHandler implements HttpHandler {
         @Override
-        public void handle(HttpExchange httpExchange) throws IOException {
-            try (httpExchange) {
+        public void handle(HttpExchange h) {
+            try (h) {
                 try {
-
+                    String path = h.getRequestURI().getPath();
+                    String[] splitPath = path.split("/");
+                    if (splitPath.length < 3) {
+                        String response = gson.toJson(manager.getTasks());
+                    }
                 } catch (Exception e) {
-
+                    errorHandler.handle(h, e);
                 }
             }
         }
@@ -73,22 +81,40 @@ public class HttpTaskServer {
 
     static class SubtaskHandler implements HttpHandler {
         @Override
-        public void handle(HttpExchange httpExchange) throws IOException {
+        public void handle(HttpExchange h) {
+            try (h) {
+                try {
 
+                } catch (Exception e) {
+                    errorHandler.handle(h, e);
+                }
+            }
         }
     }
 
     static class EpicHandler implements HttpHandler {
         @Override
-        public void handle(HttpExchange httpExchange) throws IOException {
+        public void handle(HttpExchange h) {
+            try (h) {
+                try {
 
+                } catch (Exception e) {
+                    errorHandler.handle(h, e);
+                }
+            }
         }
     }
 
     static class PrioritizedHandler implements HttpHandler {
         @Override
-        public void handle(HttpExchange httpExchange) throws IOException {
+        public void handle(HttpExchange h) {
+            try (h) {
+                try {
 
+                } catch (Exception e) {
+                    errorHandler.handle(h, e);
+                }
+            }
         }
     }
 }
