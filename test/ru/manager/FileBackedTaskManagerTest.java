@@ -2,8 +2,7 @@ package ru.manager;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.manager.utility.ManagerLoadException;
-import ru.manager.utility.ManagerSaveException;
+import ru.manager.utility.ManagerIOException;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,13 +32,13 @@ class FileBackedTaskManagerTest {
     public void shouldSaveAndLoadEmptyFile() {
         try {
             manager.save();
-        } catch (ManagerSaveException e) {
+        } catch (ManagerIOException e) {
             System.out.println(e.getMessage());
         }
         FileBackedTaskManager actual = null;
         try {
             actual = FileBackedTaskManager.loadFromFile(file.toFile());
-        } catch (ManagerLoadException e) {
+        } catch (ManagerIOException e) {
             System.out.println(e.getMessage());
         }
 
@@ -75,7 +74,7 @@ class FileBackedTaskManagerTest {
         FileBackedTaskManager actual = null;
         try {
             actual = FileBackedTaskManager.loadFromFile(file.toFile());
-        } catch (ManagerLoadException e) {
+        } catch (ManagerIOException e) {
             System.out.println(e.getMessage());
         }
 
