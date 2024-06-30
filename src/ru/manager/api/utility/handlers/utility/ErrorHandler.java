@@ -17,6 +17,7 @@ public class ErrorHandler {
     public ErrorHandler(Gson gson) {
         this.gson = gson;
     }
+
     public void handle(HttpExchange h, Exception e) {
         try {
             if (e instanceof ManagerIOException) {
