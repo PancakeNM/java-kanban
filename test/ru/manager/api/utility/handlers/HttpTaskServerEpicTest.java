@@ -45,7 +45,7 @@ public class HttpTaskServerEpicTest {
 
     @Test
     public void shouldAddEpic() throws IOException, InterruptedException {
-        Epic epic = new Epic("Te", "ted");
+        Epic epic = new Epic("Test epic", "test epic description");
         epic.setId(1);
         String epicJson = gson.toJson(epic);
 
@@ -74,7 +74,7 @@ public class HttpTaskServerEpicTest {
 
     @Test
     public void shouldReturnEpicWhenAsked() throws IOException, InterruptedException {
-        Epic epic = new Epic("Te", "ted");
+        Epic epic = new Epic("Test epic", "test epic description");
         manager.addNewEpic(epic);
         try (HttpClient client = HttpClient.newHttpClient()) {
             URI url = URI.create("http://localhost:8080/epics/1");
@@ -92,7 +92,7 @@ public class HttpTaskServerEpicTest {
 
     @Test
     public void shouldDeleteEpicWhenMethodIsDELETE() throws IOException, InterruptedException {
-        Epic epic = new Epic("Te", "ted");
+        Epic epic = new Epic("Test epic", "test epic description");
         manager.addNewEpic(epic);
         try (HttpClient client = HttpClient.newHttpClient()) {
             URI url = URI.create("http://localhost:8080/epics/1");
@@ -110,7 +110,7 @@ public class HttpTaskServerEpicTest {
 
     @Test
     public void shouldGetAllEpics() throws IOException, InterruptedException {
-        Epic epic = new Epic("Te", "ted");
+        Epic epic = new Epic("Test epic", "test epic description");
         manager.addNewEpic(epic);
         Map<Integer, Epic> expected = new HashMap<>();
         expected.put(1, epic);
@@ -130,7 +130,7 @@ public class HttpTaskServerEpicTest {
 
     @Test
     public void shouldGetAllSubtasksByEpicId() throws IOException, InterruptedException {
-        Epic epic = new Epic("T", "T");
+        Epic epic = new Epic("Test epic", "Test epic description");
         manager.addNewEpic(epic);
         SubTask subTask = new SubTask("Test 2", "Testing subtask 2",
                 TaskStatus.NEW, 1);
