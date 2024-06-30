@@ -9,14 +9,19 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 public class BaseHttpHandler {
-    HttpTaskServer httpTaskServer = new HttpTaskServer();
-    TaskManager manager = httpTaskServer.getManager();
-    Gson gson = httpTaskServer.getGson();
-    ErrorHandler errorHandler = httpTaskServer.getErrorHandler();
+    TaskManager manager;
+    Gson gson;
+    ErrorHandler errorHandler;
+
+    public BaseHttpHandler(TaskManager manager, Gson gson, ErrorHandler errorHandler) {
+        this.manager = manager;
+        this.gson = gson;
+        this.errorHandler = errorHandler;
+    }
     protected void sendText(HttpExchange h, String text, int code) throws IOException {
         byte[] resp = text.getBytes(StandardCharsets.UTF_8);
         h.getResponseHeaders().add("Content-Type", "application/json;charset=utf-8");
-        h.sendResponseHeaders(code, 0);
+        h.sendResponseHeaders(code, resp.length);
         h.getResponseBody().write(resp);
         h.close();
     }
