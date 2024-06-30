@@ -19,10 +19,11 @@ public class BaseHttpHandler {
         this.errorHandler = errorHandler;
     }
     protected void sendText(HttpExchange h, String text, int code) throws IOException {
-        byte[] resp = text.getBytes(StandardCharsets.UTF_8);
-        h.getResponseHeaders().add("Content-Type", "application/json;charset=utf-8");
-        h.sendResponseHeaders(code, resp.length);
-        h.getResponseBody().write(resp);
-        h.close();
+        try (h) {
+            byte[] resp = text.getBytes(StandardCharsets.UTF_8);
+            h.getResponseHeaders().add("Content-Type", "application/json;charset=utf-8");
+            h.sendResponseHeaders(code, resp.length);
+            h.getResponseBody().write(resp);
+        }
     }
 }
