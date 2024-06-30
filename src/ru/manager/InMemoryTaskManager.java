@@ -69,6 +69,8 @@ public class InMemoryTaskManager implements TaskManager {
         validateTaskTime(task);
         prioritizedTasks.remove(original);
         prioritizedTasks.add(task);
+        tasks.put(task.getId(), task);
+
     }
 
     @Override
