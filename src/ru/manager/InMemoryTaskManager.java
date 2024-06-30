@@ -179,6 +179,7 @@ public class InMemoryTaskManager implements TaskManager {
             Epic epic = epics.get(subTask.getEpicId());
             epic.removeSubTaskId(id);
             epicUpdater(subTask);
+            subTasks.remove(id);
         } catch (NullPointerException e) {
             throw new NotFoundException("Подзадача с id " + id + " не найдена.");
         }
