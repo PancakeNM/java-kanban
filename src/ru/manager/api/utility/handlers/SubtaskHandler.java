@@ -36,8 +36,8 @@ public class SubtaskHandler extends BaseHttpHandler implements HttpHandler {
                     }
                     case "POST" -> {
                         InputStream inputStream = h.getRequestBody();
-                        String SubTaskString = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
-                        SubTask subTask = gson.fromJson(SubTaskString, SubTask.class);
+                        String subTaskString = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+                        SubTask subTask = gson.fromJson(subTaskString, SubTask.class);
                         if (manager.getSubTaskById(subTask.getId()) != null) {
                             manager.updateSubTask(subTask);
                             sendText(h, "Подзадача обновлена.", 201);
