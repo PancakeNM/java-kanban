@@ -32,10 +32,10 @@ public class HttpTaskServer {
     public void start() throws IOException {
         httpServer = HttpServer.create(new InetSocketAddress(PORT), 0);
 
-        httpServer.createContext("/tasks", new TaskHandler());
-        httpServer.createContext("/subtasks", new SubtaskHandler());
-        httpServer.createContext("/epics", new EpicHandler());
-        httpServer.createContext("/prioritized", new PrioritizedHandler());
+        httpServer.createContext("/tasks", new TaskHandler(manager, gson, errorHandler));
+        httpServer.createContext("/subtasks", new SubtaskHandler(manager, gson, errorHandler));
+        httpServer.createContext("/epics", new EpicHandler(manager, gson, errorHandler));
+        httpServer.createContext("/prioritized", new PrioritizedHandler(manager, gson, errorHandler));
         httpServer.start();
         System.out.printf("Сервер запущен на %s порту.", PORT);
     }
