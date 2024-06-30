@@ -43,11 +43,11 @@ public class EpicHandler extends BaseHttpHandler implements HttpHandler {
                         InputStream inputStream = h.getRequestBody();
                         String epicString = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
                         Epic epic = gson.fromJson(epicString, Epic.class);
-                        if (manager.getTaskById(epic.getId()) != null) {
-                            manager.updateTask(epic);
+                        if (manager.getEpicById(epic.getId()) != null) {
+                            manager.updateEpic(epic);
                             sendText(h, "Задача обновлена.", 201);
                         } else {
-                            manager.addNewTask(epic);
+                            manager.addNewEpic(epic);
                             sendText(h, "Задача добавлена.", 201);
                         }
                     }
