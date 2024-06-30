@@ -2,6 +2,11 @@ package ru.manager.api.utility.handlers;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import ru.manager.Epic;
+import ru.manager.Task;
+
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 public class EpicHandler extends BaseHttpHandler implements HttpHandler {
     @Override
@@ -28,6 +33,18 @@ public class EpicHandler extends BaseHttpHandler implements HttpHandler {
                         }
                     }
                     case "POST" -> {
+                        InputStream inputStream = h.getRequestBody();
+                        String epicString = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+                        Epic epic = gson.fromJson(epicString, Epic.class);
+                        if (manager.getTaskById(epic.getId()) != null) {
+                            manager.updateTask(epic);
+                            sendText(h, "Задача обновлена.", 201);
+                        } else {
+                            manager.addNewTask(epic);
+                            sendText(h, "Задача добавлена.", 201);
+                        }
+                    }
+                    case "DELETE" -> {
                         String[] splitPath = path.split("/");
                         int id = Integer.parseInt(splitPath[2]);
                         manager.removeEpicById(id);
