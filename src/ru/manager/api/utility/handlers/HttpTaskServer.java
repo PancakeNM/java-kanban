@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 
 public class HttpTaskServer {
     public HttpServer httpServer;
-    public final int PORT = 8080;
+    public final int port = 8080;
     public Gson gson;
     public TaskManager manager = Managers.getDefaultTaskManager();
     public ErrorHandler errorHandler = new ErrorHandler(getGson());
@@ -37,14 +37,14 @@ public class HttpTaskServer {
     }
 
     public void start() throws IOException {
-        httpServer = HttpServer.create(new InetSocketAddress(PORT), 0);
+        httpServer = HttpServer.create(new InetSocketAddress(port), 0);
 
         httpServer.createContext("/tasks", new TaskHandler(manager, gson, errorHandler));
         httpServer.createContext("/subtasks", new SubtaskHandler(manager, gson, errorHandler));
         httpServer.createContext("/epics", new EpicHandler(manager, gson, errorHandler));
         httpServer.createContext("/prioritized", new PrioritizedHandler(manager, gson, errorHandler));
         httpServer.start();
-        System.out.printf("Сервер запущен на %s порту.", PORT);
+        System.out.printf("Сервер запущен на %s порту.", port);
     }
 
     public ErrorHandler getErrorHandler() {
