@@ -1,14 +1,21 @@
 package ru.manager.api.utility.handlers;
 
+import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import ru.manager.Epic;
 import ru.manager.Task;
+import ru.manager.api.utility.handlers.utility.ErrorHandler;
+import ru.manager.interfaces.TaskManager;
 
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
 public class EpicHandler extends BaseHttpHandler implements HttpHandler {
+    public EpicHandler(TaskManager manager, Gson gson, ErrorHandler errorHandler) {
+        super(manager, gson, errorHandler);
+    }
+
     @Override
     public void handle(HttpExchange h) {
         try (h) {
