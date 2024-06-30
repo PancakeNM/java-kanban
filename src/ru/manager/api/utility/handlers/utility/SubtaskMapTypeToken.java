@@ -6,5 +6,4 @@ import ru.manager.SubTask;
 import java.util.Map;
 
 public class SubtaskMapTypeToken extends TypeToken<Map<Integer, SubTask>> {
-
 }

@@ -6,5 +6,4 @@ import ru.manager.Epic;
 import java.util.Map;
 
 public class EpicMapTypeToken extends TypeToken<Map<Integer, Epic>> {
-
 }

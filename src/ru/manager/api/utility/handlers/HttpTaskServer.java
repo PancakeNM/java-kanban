@@ -24,7 +24,7 @@ public class HttpTaskServer {
     public HttpTaskServer() {
     }
 
-    public HttpTaskServer(TaskManager manager){
+    public HttpTaskServer(TaskManager manager) {
         this.manager = manager;
     }
 

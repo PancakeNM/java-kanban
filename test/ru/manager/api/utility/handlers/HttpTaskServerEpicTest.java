@@ -136,7 +136,7 @@ public class HttpTaskServerEpicTest {
                 TaskStatus.NEW, 1);
         manager.addNewSubTask(subTask);
         SubTask subTask1 = new SubTask("Test 1", "Testing subtask 1",
-                TaskStatus.NEW,  1);
+                TaskStatus.NEW, 1);
         subTask1.setStartTime(subTask.getStartTime().plusDays(1));
         manager.addNewSubTask(subTask1);
         List<SubTask> expected = new ArrayList<>();

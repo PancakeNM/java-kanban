@@ -70,7 +70,7 @@ public class HttpTaskServerSubtaskTest {
 
             assertNotNull(subTasksFromManager, "Задачи не возвращаются");
             assertEquals(1, subTasksFromManager.size(), "Некорректное колличество задач");
-            assertEquals(subTask,  subTasksFromManager.get(2));
+            assertEquals(subTask, subTasksFromManager.get(2));
         }
     }
 

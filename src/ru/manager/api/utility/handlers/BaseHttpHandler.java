@@ -18,6 +18,7 @@ public class BaseHttpHandler {
         this.gson = gson;
         this.errorHandler = errorHandler;
     }
+
     protected void sendText(HttpExchange h, String text, int code) throws IOException {
         try (h) {
             byte[] resp = text.getBytes(StandardCharsets.UTF_8);
