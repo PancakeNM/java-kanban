@@ -199,7 +199,9 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Epic getEpicById(int id) throws NotFoundException { //получение эпика по id
         try {
-            historyManager.add(epics.get(id));
+            if (epics.containsKey(id)) {
+                historyManager.add(epics.get(id));
+            }
             return epics.get(id);
         } catch (NullPointerException e) {
             throw new NotFoundException("Эпик с id " + id + " не найден.");
@@ -209,7 +211,9 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public SubTask getSubTaskById(int id) { //метод получения
         try {
-            historyManager.add(subTasks.get(id));
+            if (subTasks.containsKey(id)) {
+                historyManager.add(subTasks.get(id));
+            }
             return subTasks.get(id);
         } catch (NullPointerException e) {
             throw new NotFoundException("Подзадача с id " + id + " не найдена.");
