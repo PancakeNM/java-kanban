@@ -187,7 +187,9 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Task getTaskById(int id) throws NotFoundException { //получение задачи по id
         try {
-            historyManager.add(tasks.get(id));
+            if (tasks.containsKey(id)) {
+                historyManager.add(tasks.get(id));
+            }
             return tasks.get(id);
         } catch (NullPointerException e) {
             throw new NotFoundException("Задача с id " + id + " не найдена.");
