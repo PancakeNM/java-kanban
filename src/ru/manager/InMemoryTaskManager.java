@@ -153,7 +153,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void removeTaskById(int id) throws NotFoundException { //удаление задачи по id
-        if (tasks.get(id) != null){
+        if (tasks.get(id) != null) {
             tasks.remove(id);
         } else {
             throw new NotFoundException("Задача с id " + id + " не найдена.");
