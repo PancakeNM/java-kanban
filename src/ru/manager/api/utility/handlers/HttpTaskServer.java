@@ -21,6 +21,13 @@ public class HttpTaskServer {
     public TaskManager manager = Managers.getDefaultTaskManager();
     public ErrorHandler errorHandler = new ErrorHandler(getGson());
 
+    public HttpTaskServer() {
+    }
+
+    public HttpTaskServer(TaskManager manager){
+        this.manager = manager;
+    }
+
     public TaskManager getManager() {
         return manager;
     }
