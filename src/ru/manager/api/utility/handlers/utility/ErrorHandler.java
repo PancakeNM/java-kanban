@@ -1,4 +1,4 @@
-package ru.manager.api.utility.handlers;
+package ru.manager.api.utility.handlers.utility;
 
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
