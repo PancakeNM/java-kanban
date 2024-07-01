@@ -2,8 +2,7 @@ package ru.manager;
 
 import ru.Managers;
 import ru.manager.interfaces.HistoryManager;
-import ru.manager.utility.ManagerLoadException;
-import ru.manager.utility.ManagerSaveException;
+import ru.manager.utility.ManagerIOException;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -20,7 +19,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         this.file = file;
     }
 
-    public void save() throws ManagerSaveException {
+    public void save() throws ManagerIOException {
         List<String> lines = new ArrayList<>();
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(file.toFile(), StandardCharsets.UTF_8))) {
             if (!tasks.isEmpty()) {
@@ -44,11 +43,11 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 bw.write(str + "\n");
             }
         } catch (IOException exp) {
-            throw new ManagerSaveException("Ошибка записи в файл.");
+            throw new ManagerIOException("Ошибка записи в файл.");
         }
     }
 
-    static FileBackedTaskManager loadFromFile(File file) throws ManagerLoadException {
+    static FileBackedTaskManager loadFromFile(File file) throws ManagerIOException {
         FileBackedTaskManager manager = new FileBackedTaskManager(Managers.getDefaultHistoryManager(), file.toPath());
         List<String> lines = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
@@ -56,7 +55,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 lines.add(br.readLine());
             }
         } catch (IOException e) {
-            throw new ManagerLoadException("Ошибка чтения файла.");
+            throw new ManagerIOException("Ошибка чтения файла.");
         }
         for (int i = 1; i < lines.size(); i++) {
             if (manager.taskFromString(lines.get(i)) != null) {
@@ -86,7 +85,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         super.addNewTask(task);
         try {
             save();
-        } catch (ManagerSaveException e) {
+        } catch (ManagerIOException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -96,7 +95,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         super.addNewSubTask(subTask);
         try {
             save();
-        } catch (ManagerSaveException e) {
+        } catch (ManagerIOException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -106,7 +105,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         super.updateTask(task);
         try {
             save();
-        } catch (ManagerSaveException e) {
+        } catch (ManagerIOException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -116,7 +115,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         super.updateSubTask(subTask);
         try {
             save();
-        } catch (ManagerSaveException e) {
+        } catch (ManagerIOException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -126,7 +125,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         super.updateEpic(epic);
         try {
             save();
-        } catch (ManagerSaveException e) {
+        } catch (ManagerIOException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -136,7 +135,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         super.addNewEpic(epic);
         try {
             save();
-        } catch (ManagerSaveException e) {
+        } catch (ManagerIOException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -146,7 +145,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         super.removeAllTasks();
         try {
             save();
-        } catch (ManagerSaveException e) {
+        } catch (ManagerIOException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -156,7 +155,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         super.removeAllEpics();
         try {
             save();
-        } catch (ManagerSaveException e) {
+        } catch (ManagerIOException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -166,7 +165,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         super.removeAllSubTasks();
         try {
             save();
-        } catch (ManagerSaveException e) {
+        } catch (ManagerIOException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -176,7 +175,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         super.removeTaskById(id);
         try {
             save();
-        } catch (ManagerSaveException e) {
+        } catch (ManagerIOException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -186,7 +185,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         super.removeEpicById(id);
         try {
             save();
-        } catch (ManagerSaveException e) {
+        } catch (ManagerIOException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -196,7 +195,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         super.removeSubTaskById(id);
         try {
             save();
-        } catch (ManagerSaveException e) {
+        } catch (ManagerIOException e) {
             System.out.println(e.getMessage());
         }
     }
